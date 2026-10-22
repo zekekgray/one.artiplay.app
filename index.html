@@ -388,18 +388,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
  .v-led{flex-wrap:wrap;gap:6px 12px;padding:10px 12px;margin-top:8px}
  .v-led em{margin-left:0;max-width:none}
 }
-@media(max-height:820px){
- h2{font-size:clamp(24px,3vw,34px)}
- #flow .node{padding:6px 4px}
- #flow .node i{width:48px;height:48px;margin-bottom:6px}
- #flow .node span{display:none}
- #flow:before,#flow:after{top:30px}
- .v-led{margin-top:8px;padding:10px 14px}
-}
 @media(max-height:700px){
  .in{padding-top:64px;padding-bottom:36px}
- #flow .node{padding:6px 8px}#flow .node i{width:48px;height:48px;margin-bottom:6px}
- .v-led{margin-top:8px;padding:9px 14px}
  .lede{margin-bottom:12px}
 }
 /* ===================== END VISUAL LAYER ===================== */
@@ -644,13 +634,13 @@ const S=[...document.querySelectorAll('.slide')],T=$('track'),st=$('stage');let 
 const rvs=i=>[...S[i].querySelectorAll('.rv')];
 function layout(){const h=innerHeight;S.forEach(s=>s.style.height=h+'px');T.style.transition='none';T.style.transform=`translateY(-${cur*h}px)`;void T.offsetWidth;T.style.transition=''}
 function chrome(){$('bar').style.width=((cur+1)/S.length*100)+'%';$('cnt').textContent=(cur+1)+' / '+S.length+' · v2';$('pv').style.visibility=cur?'visible':'hidden';$('nx').style.visibility=cur===S.length-1?'hidden':'visible';const d=S[cur].classList.contains('dark');$('cnt').style.color=d?'#777':'#555'}
-function go(i){md();i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked)i=S.length-2;if(i===cur)return;cur=i;S[i].querySelector('.in').scrollTop=0;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===S.length-3)calc()}
+function go(i){md();i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked)i=S.length-2;if(i===cur)return;cur=i;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===S.length-3)calc()}
 function next(){return rvs(cur).find(e=>!e.classList.contains('on'))}
 function mark(e){if(e.classList.contains('node'))rvs(cur).forEach(n=>n.classList.toggle('on',false));}
-function advance(){md();const e=next();if(e){const L=rvs(cur);L.forEach(x=>x.classList.add('on'));vSee(L[L.length-1]);if(e.classList.contains('node')){document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));}hap()}else go(cur+1)}
+function advance(){md();const e=next();if(e){e.classList.add('on');if(e.classList.contains('node')){document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));}hap()}else go(cur+1)}
 function back(){md();const on=rvs(cur).filter(e=>e.classList.contains('on'));if(on.length)on[on.length-1].classList.remove('on');else go(cur-1)}
 st.addEventListener('click',e=>{if(e.target.closest('button,input,textarea,.card,.chip,.price,#md'))return;advance()});
-let lock=0;st.addEventListener('wheel',e=>{const sc=e.target.closest('.in');if(sc&&sc.scrollHeight>sc.clientHeight+4){if(e.deltaY>0&&sc.scrollTop+sc.clientHeight<sc.scrollHeight-4)return;if(e.deltaY<0&&sc.scrollTop>4)return}e.preventDefault();if(lock||Math.abs(e.deltaY)<12)return;lock=1;e.deltaY>0?go(cur+1):go(cur-1);setTimeout(()=>lock=0,760)},{passive:false});
+let lock=0;st.addEventListener('wheel',e=>{if(e.target.closest('.in')&&e.target.closest('.in').scrollHeight>e.target.closest('.in').clientHeight+4)return;e.preventDefault();if(lock||Math.abs(e.deltaY)<12)return;lock=1;e.deltaY>0?go(cur+1):go(cur-1);setTimeout(()=>lock=0,760)},{passive:false});
 let ty=0;st.addEventListener('touchstart',e=>ty=e.touches[0].clientY,{passive:true});
 st.addEventListener('touchend',e=>{const d=ty-e.changedTouches[0].clientY;const sc=e.target.closest('.in');if(sc&&sc.scrollHeight>sc.clientHeight+4){if(d>0&&sc.scrollTop+sc.clientHeight<sc.scrollHeight-4)return;if(d<0&&sc.scrollTop>4)return}if(Math.abs(d)>60&&!e.target.closest('input,textarea'))d>0?go(cur+1):go(cur-1)},{passive:true});
 document.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
@@ -819,6 +809,5 @@ const _vCalc=calc;calc=function(){_vCalc();vSav()};
 
 vInject();
 /* ===================== END VISUAL LAYER (B) ===================== */
-function vSee(e){const inn=e.closest('.in');if(!inn)return;const r=e.getBoundingClientRect(),b=inn.getBoundingClientRect();if(r.bottom>b.bottom-24)inn.scrollBy({top:r.bottom-b.bottom+48,behavior:'smooth'})}
 layout();chrome();
 </script></body></html>
