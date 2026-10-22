@@ -439,6 +439,45 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 }
 @media(prefers-reduced-motion:reduce){.hw-in{animation:none}}
 /* ===================== END VISUAL LAYER ===================== */
+
+/* === START: CARD SYSTEM CSS === */
+.card.cx{position:relative}
+.cx-hr{display:flex;align-items:center;gap:8px}
+.cx-ch{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(128,128,128,.2);font:700 13px var(--m);font-style:normal;transition:transform .3s var(--sp)}
+.card.open .cx-ch{transform:rotate(45deg)}
+.cx-d{display:flex;align-items:center;gap:9px;margin-top:11px;padding:8px 10px;border-radius:13px;background:rgba(48,209,88,.08);border:1px solid rgba(48,209,88,.16)}
+.light .cx-d{background:rgba(36,138,61,.07);border-color:rgba(36,138,61,.16)}
+.cx-av{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--g),var(--gd));color:#04210d;font:700 12px var(--f);font-style:normal}
+.cx-t{flex:1;min-width:0}
+.cx-t small{display:block;font:700 8.5px var(--m);letter-spacing:.08em;opacity:.5}
+.cx-t b{display:block;font-size:12px;margin:2px 0 0}
+.cx-t u{display:block;text-decoration:none;font-size:11.5px;opacity:.7}
+.cx-pill{flex:none;font:700 9.5px var(--f);font-style:normal;padding:4px 9px;border-radius:9px;background:rgba(48,209,88,.18);color:var(--g)}
+.light .cx-pill{color:var(--gd)}
+.cx-pill.warn{background:rgba(245,112,26,.16);color:var(--rust)}
+.cx-pill.late{background:rgba(255,196,60,.18);color:#ffc44d}
+.light .cx-pill.late{color:#9a6a00}
+.cx-s{font:600 8.5px var(--m);letter-spacing:.1em;opacity:.4;margin-top:6px}
+.cx-more{display:none}
+.card.open .cx-more{display:block;animation:hwIn .35s var(--ease)}
+.cx-more p{font-size:12.5px;line-height:1.55;margin:12px 0 0;opacity:.85}
+.cx-shot{margin-top:12px;height:140px;border-radius:12px;overflow:hidden;border:1px solid rgba(128,128,128,.25)}
+.cx-shot img{display:block;width:100%;height:100%;object-fit:cover}
+.cx-go{margin-top:12px;padding:9px 14px;border-radius:11px;font-size:12px;font-weight:700;box-shadow:none}
+.light .cx-go{background:var(--ink);color:#F5F0E6}
+@media(prefers-reduced-motion:reduce){.card.open .cx-more{animation:none}}
+/* === END: CARD SYSTEM CSS === */
+/* === START: STORY CSS === */
+.sh-img{display:block;width:100%;max-width:380px;margin:0 auto;border-radius:22px;border:1px solid rgba(255,255,255,.14);box-shadow:0 26px 56px rgba(0,0,0,.4)}
+/* Implementation cards: minimal styles (the .pm / .pl-badge classes are not in this file version) */
+.pm{border-radius:18px;padding:16px 17px;background:#F7F2E6;border:1px solid rgba(28,28,30,.1)}
+.pm.plan{border-style:dashed}
+.pm small{display:block;font:700 9.5px var(--m);letter-spacing:.08em;opacity:.5}
+.pm b{display:block;font-size:14px;margin-bottom:4px}
+.pm .how{font-size:12.5px;line-height:1.5;color:var(--t2)}
+.pl-badge{display:inline-block;font:700 9px var(--m);letter-spacing:.08em;padding:3px 9px;border-radius:10px;background:rgba(245,112,26,.16);color:var(--rust)}
+.pl-badge.ok{background:rgba(48,209,88,.16);color:var(--gd)}
+/* === END: STORY CSS === */
 </style></head><body>
 <div id="bar"></div>
 <div id="wel"><div style="font:600 12px var(--m);letter-spacing:.2em;opacity:.6">ARTIBYTE'S APOSTROPHE INC.</div>
@@ -451,21 +490,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 
 <section class="slide dark"><div class="in">
 <div class="eb">THE REALITY</div>
-<h2>How does your academy actually run today?</h2>
-<p class="lede rv">Most coaches already know the answer. It works, until enrollment grows.</p>
+<h2>The hidden cost of running an academy on chats and spreadsheets.</h2>
+<p class="lede rv">It works, until enrollment grows. Then the cost shows up as retyped records, unclear balances and sessions nobody can verify.</p>
 <div class="grid g3" id="g-real"></div>
-<div class="row rv" style="margin-top:20px"><button class="btn" onclick="go(11)">Estimate your impact</button></div>
+<div class="row rv" style="margin-top:20px"><button class="btn" onclick="go(K('estimate'))">Estimate your impact</button></div>
 </div></section>
 
 <section class="slide light"><div class="in">
+<!-- === START: PROMISE SLIDE === -->
 <div class="eb">ARTIPLAY</div>
 <div class="split"><div>
-<h2>Run training, not paperwork.</h2>
-<p class="lede rv">ArtiPlay is a mobile-first portal that every parent, coach and admin opens like an app. Players enroll, pay and check in. Staff scan and see who owes what. Nothing gets retyped.</p>
-<div class="row rv"><div class="stat"><b>4</b><span>program types supported</span></div><div class="stat"><b>0</b><span>apps to install</span></div><div class="stat"><b>Offline</b><span>scanner keeps working</span></div></div></div>
-<div><div class="card rv" onclick="md(this)" data-t="Parents &amp; players" data-s="Enroll, pay, track" data-d="Find a player by number or ID, see sessions left, schedule, payments and a QR pass. Everything is in one place, on any phone." data-go="2"><span class="tag">FOR FAMILIES</span><b>Parents &amp; players</b><span>Enroll, top up, pay, check the schedule.</span></div>
-<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Coaches &amp; staff" data-s="Scan, mark, plan" data-d="Staff sign in, scan the player QR, and attendance is recorded with Present or Late status. Coaches mark which sessions they can handle." data-go="3"><span class="tag">FOR STAFF</span><b>Coaches &amp; staff</b><span>Scan QR, confirm attendance, set availability.</span></div>
-<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Admins &amp; owners" data-s="See and control everything" data-d="Verify payments, review rosters, assign coaches, adjust balances with a reason, and read reports. Every change is logged." data-go="4"><span class="tag">FOR ADMINS</span><b>Admins &amp; owners</b><span>Approvals, roster, ledger, reports.</span></div></div></div>
+<h2 id="pm-h">Less admin. More coaching. One connected academy.</h2>
+<p class="lede rv">ArtiPlay connects enrollment, payments, attendance, session packages and schedules in one mobile-first portal for sports academies and training programs.</p>
+</div>
+<div><div class="card rv" onclick="md(this)" data-t="Academy owners" data-s="See the whole operation" data-d="Know who has paid and who owes what, with daily, weekly and monthly summaries." data-go="money"><span class="tag">FOR ACADEMY OWNERS</span><b>See operations and what is owed</b><span>More visibility into operations and outstanding payments.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Coaches" data-s="Know who is coming" data-d="Staff sign in, scan the player QR, and attendance is recorded as Present or Late. Coaches mark which sessions they can handle." data-go="staff"><span class="tag">FOR COACHES</span><b>Know who is coming</b><span>Clearer rosters, attendance and session information.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Parents and players" data-s="Everything on one phone" data-d="See sessions left, the weekly schedule, payments and a QR pass, on any phone." data-go="parents"><span class="tag">FOR PARENTS</span><b>Everything on one phone</b><span>Easier access to schedules, balances and player details.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Administrators" data-s="One connected workflow" data-d="Review enrollments, verify payments, assign coaches and read reports from one console." data-go="admin"><span class="tag">FOR ADMINISTRATORS</span><b>One connected workflow</b><span>A connected workflow for approvals, records and reporting.</span></div></div></div>
+<!-- === END: PROMISE SLIDE === -->
 </div></section>
 
 <section class="slide dark"><div class="in">
@@ -528,13 +570,22 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <section class="slide light"><div class="in">
 <div class="eb">PRICING</div>
 <h2>One setup, one monthly fee.</h2>
-<p class="lede rv">Sample figures. Edit them in the CONFIG block at the top of the script.</p>
+<p class="lede rv">Indicative pricing. Setup is one-time. The monthly fee covers support and development.</p>
 <div class="grid g2" id="pr"></div>
 </div></section>
 
+<!-- === START: IMPLEMENTATION SLIDE === -->
+<section class="slide light"><div class="in">
+<div class="eb">IMPLEMENTATION</div>
+<h2>From yes to running, without the guesswork.</h2>
+<p class="lede rv" id="im-l"></p>
+<div class="grid g2" id="g-impl"></div>
+</div></section>
+<!-- === END: IMPLEMENTATION SLIDE === -->
+
 <section class="slide dark"><div class="in">
 <div class="eb">ESTIMATE YOUR IMPACT</div>
-<h2>See it against your own numbers.</h2>
+<h2>Your numbers: effort, benefit and total cost.</h2>
 <div class="split"><div id="sl"></div>
 <div class="res"><div class="big" id="o-sav">₱0</div><div style="font-size:12.5px;color:var(--c2);margin-bottom:16px">Estimated value recovered per month</div>
 <div class="row"><div class="stat"><b id="o-hr">0</b><span>admin hours saved / month</span></div><div class="stat"><b id="o-pb">–</b><span>payback period</span></div></div>
@@ -545,7 +596,8 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <div class="eb">LET'S TALK</div>
 <div class="split"><div>
 <h2>Let's set up your academy.</h2>
-<p class="lede">Book a 20-minute walkthrough using your own schedule and packages.</p>
+<p class="lede">Choose how you want to start. Every option begins with your own schedule and packages.</p>
+<div class="fld"><label>What would you like?</label><div class="chips" id="rch"><button class="chip a" onclick="pickR(this)">Personalized demo</button><button class="chip" onclick="pickR(this)">Pilot proposal</button><button class="chip" onclick="pickR(this)">Choose a package</button></div></div>
 <div class="fld"><label>Full name</label><input id="f-n" placeholder="e.g. Coach Maria Santos"></div>
 <div class="fld"><label>Academy or club name</label><input id="f-b" placeholder="e.g. Southside FC"></div>
 <div class="fld"><label>Players / sport</label><input id="f-p" placeholder="e.g. 120 players, football"></div>
@@ -596,12 +648,12 @@ plans:[{tag:'CLUB',name:'Starter',orig:19995,setup:3999,monthly:499,feats:['1 ve
 const $=id=>document.getElementById(id);
 const peso=n=>'₱'+Math.round(n).toLocaleString('en-PH');
 /* ===== content ===== */
-const REAL=[['Enrollment in chat threads','Parents send forms, screenshots and questions across Messenger and Viber. Details get lost and re-asked.','Online enrollment with one player profile.',2],
-['Payments by screenshot','Someone has to match each GCash screenshot to a player and a package by hand.','Proof upload, verification and a ledger.',5],
-['Session counts in a sheet','Nobody trusts the remaining-sessions number. Packages expire quietly.','Live sessions left with expiry dates.',2],
-['Paper attendance','Sign-in sheets get retyped at the end of the week, if at all.','QR scan with Present or Late.',3],
-['No-shows and last-minute cancels','Coaches only learn who is coming when they arrive.','Weekly Going / Not going poll.',2],
-['Everything depends on one admin','If the admin is busy, parents wait for answers.','Self-service portal plus an admin console.',4]];
+const REAL=[['Enrollment in chat threads','Parents send forms, screenshots and questions across Messenger and Viber. Details get lost and re-asked.','Online enrollment with one player profile.','parents'],
+['Payments by screenshot','Someone has to match each GCash screenshot to a player and a package by hand.','Proof upload, verification and a ledger.','money'],
+['Session counts in a sheet','Nobody trusts the remaining-sessions number. Packages expire quietly.','Live sessions left with expiry dates.','parents'],
+['Paper attendance','Sign-in sheets get retyped at the end of the week, if at all.','QR scan with Present or Late.','staff'],
+['No-shows and last-minute cancels','Coaches only learn who is coming when they arrive.','Weekly Going / Not going poll.','parents'],
+['Everything depends on one admin','If the admin is busy, parents wait for answers.','Self-service portal plus an admin console.','admin']];
 const PAR=[['Find my player','Use the mobile number or Player ID. No password to forget.'],['Sessions left','Remaining sessions, expiry date and a top-up button.'],['Schedule','Weekly view by day or by program, with cancellations shown.'],['Weekly poll','Tap Going or Not going. See who else is confirmed.'],['Payments','Amount due, live deadline, proof upload and receipts.'],['QR pass','A scannable ID that works offline once loaded.'],['Ask Admin','In-app chat that is replied to from the console.'],['Multiple children','Switch between siblings with one tap.'],['Player photo','Coaches see a face at check-in.']];
 const STAFF=[['Staff sign-in','A staff key gates the scanner. Sessions expire on idle.'],['QR scanner','Camera scan with a manual Player ID fallback.'],['Offline mode','Scans queue on the phone and sync when signal returns.'],['Present or Late','Lateness is computed from the session start and a grace period.'],['No duplicate check-ins','A repeat scan never deducts a second session.'],['Coach availability','Coaches mark which sessions they can take each week.']];
 const ADM=[['Payment approvals','Verify, reject or reverse. Partial payments supported.'],['Roster and poll','See confirmed, expected and not-going players per session.'],['Coach assignment','Assign by hand or auto-assign from availability.'],['Ledger','Append-only record of every charge, waiver and refund.'],['Enrollment review','Approve, send back for correction or decline.'],['Reports and alerts','Daily, weekly and monthly summaries. Expiry reminders.'],['Walk-ins and exceptions','Review unmarked, absent and unmatched check-ins.'],['Audit log','Who changed what, when, and why.'],['Settings','Penalty rules, deadlines and keys, without touching code.']];
@@ -640,9 +692,36 @@ ticket:'<path d="M3 9a2 2 0 0 0 0 6v3h18v-3a2 2 0 0 1 0-6V6H3z"/><path d="M13 6v
 const VIM=[[/review|duplicate/,'check'],[/audit/,'shield'],[/ledger/,'list'],[/penalty/,'clock'],[/proof|photo/,'camera'],[/payment|verify/,'pay'],[/sheet/,'sheet'],[/sessions left|package/,'ticket'],[/schedule/,'cal'],[/roster|family|children/,'users'],[/program/,'layers'],[/academy by default/,'shield'],[/find/,'search'],[/enroll|ask admin|chat/,'chat'],[/qr/,'qr'],[/offline/,'wifioff'],[/poll|no-show/,'bell'],[/paper|present|late/,'clip'],[/report/,'chart'],[/setting/,'gear'],[/walk/,'bolt'],[/coach|staff|sign-in|admin/,'user']];
 function vIc(t){const s=String(t).toLowerCase();for(const r of VIM)if(r[0].test(s))return VIC[r[1]];return VIC.bolt}
 
+/* === START: CARD SYSTEM === */
+/* Keyed by card title. data = a record shown in the card. Everything is SAMPLE unless real:true.
+   shot = cropped screenshot URL (optional). pos = crop focus, e.g. 'top' or 'center'.
+   act = [button label, target]. Target is a slide key or 'demo'. */
+const CARDX={
+ 'Sessions left':{data:{k:'PLAYER BALANCE',who:'Marco R.',line:'8 sessions left · expires Nov 30',pill:'Active'},out:'Parents can see the count themselves.',more:'Remaining sessions, the expiry date and a top-up button, on any phone.',shot:'',act:['See this with your packages','demo']},
+ 'Payments':{data:{k:'PAYMENT DUE',who:'Marco R.',line:'₱1,500 due Friday',pill:'Due',tone:'warn'},out:'Amount due and deadline, always current.',more:'Amount due, live deadline, proof upload and receipts.',shot:'',act:['See how late penalties work','money']},
+ 'QR scanner':{data:{k:'LAST SCAN',who:'Marco Reyes',line:'7 sessions left',pill:'Present'},out:'Photo and sessions left appear at check-in.',more:'Camera scan with a manual Player ID fallback.',shot:'',act:['Follow one player end to end','flow']},
+ 'Present or Late':{data:{k:'ATTENDANCE',who:'Ana Cruz',line:'Sat · arrived 4:12 PM',pill:'Late',tone:'late'},out:'Late arrivals are marked by rule, not case by case.',more:'Set the grace period once. Lateness is computed from the session start.',shot:'',act:['See this with your sessions','demo']},
+ 'Payment approvals':{data:{k:'TO VERIFY',who:'Ana C.',line:'₱2,000 · proof uploaded',pill:'Pending',tone:'warn'},out:'Verify, reject or reverse from one queue.',more:'Partial payments are supported. A short payment keeps the balance open.',shot:'',act:['Follow a payment end to end','flow']},
+ 'Ledger':{data:{k:'LEDGER ENTRY',who:'Leo V.',line:'Waiver −₱500 · reason on file',pill:'Logged'},out:'Every charge, waiver and refund has a record.',more:'Waivers and adjustments need a reason.',shot:'',act:['See the trust checks','trust']},
+ 'Live late-penalty clock':{data:{k:'OWED RIGHT NOW',who:'Marco R.',line:'₱1,500 + ₱100 flat penalty',pill:'Late',tone:'late'},out:'Parents see exactly what is owed right now.',more:'Set a flat or per-day penalty and a grace period once.',shot:'',act:['Estimate what this is worth to you','estimate']}
+};
+/* demo → Let's talk slide (no bookDemo() in this file). Unknown keys (e.g. 'trust' if that slide is absent) are ignored instead of jumping to slide 0. */
+function cxGo(t){if(t==='demo'){bkReq='Personalized demo';go(K('talk'));return}const i=isNaN(+t)?K(t):+t;if(i>=0)go(i)}
+function cx(el){const open=!el.classList.contains('open');
+ el.parentElement.querySelectorAll('.card.open').forEach(c=>{if(c!==el)c.classList.remove('open')});
+ el.classList.toggle('open',open);el.setAttribute('aria-expanded',open);hap();if(open)vSee(el)}
 function cards(id,arr){
  const pain=arr===REAL;
- $(id).innerHTML=arr.map((a,i)=>`<div class="card rv" onclick="md(this)" data-t="${a[0]}" data-s="${a[2]||''}" data-d="${a[1]}"${a[3]?` data-go="${a[3]}"`:''}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><span class="tag">${String(i+1).padStart(2,'0')}</span></div><b>${a[0]}</b><span>${a[1]}</span>${pain&&a[2]?`<em class="v-fx">→ ${a[2]}</em>`:''}</div>`).join('')}
+ $(id).innerHTML=arr.map((a,i)=>{
+  const x=CARDX[a[0]]||{},tgt=x.act?x.act[1]:(pain&&a[3]?a[3]:''),lab=x.act?x.act[0]:'See how ArtiPlay handles it',
+   out=x.out||(pain&&a[2]?a[2]:''),d=x.data,more=x.more||'',shot=x.shot||'',expand=!!(tgt||more||shot);
+  const strip=d?`<div class="cx-d"><i class="cx-av">${d.who.charAt(0)}</i><div class="cx-t"><small>${d.k}</small><b>${d.who}</b><u>${d.line}</u></div><em class="cx-pill ${d.tone||''}">${d.pill}</em></div><div class="cx-s">${x.real?'LIVE DATA · NAMES CHANGED':'SAMPLE DATA'}</div>`:'';
+  const body=expand?`<div class="cx-more">${shot?`<div class="cx-shot"><img src="${shot}" alt="${a[0]} screen" loading="lazy" style="object-position:${x.pos||'top'}"></div><div class="cx-s">${x.real?'LIVE SCREEN · NAMES CHANGED':'SCREEN · SAMPLE DATA'}</div>`:''}${more?`<p>${more}</p>`:''}${tgt?`<button class="btn cx-go" onclick="event.stopPropagation();cxGo('${tgt}')">${lab}</button>`:''}</div>`:'';
+  return `<div class="card rv cx"${expand?` onclick="cx(this)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter')cx(this)"`:' style="cursor:default"'}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><div class="cx-hr"><span class="tag">${String(i+1).padStart(2,'0')}</span>${expand?'<i class="cx-ch">+</i>':''}</div></div><b>${a[0]}</b><span>${a[1]}</span>${strip}${out?`<em class="v-fx">→ ${out}</em>`:''}${body}</div>`}).join('')}
+/* Benefit-first captions under the animated mocks. Skipped when a real screenshot replaces the mock. */
+const HERO_CAPS={staff:'One scan records Present or Late',admin:'Payments, attendance and cash in one console',money:'What is owed, from the server clock'};
+function capsApply(){Object.keys(HERO_CAPS).forEach(k=>{const i=K(k);if(i<0||(typeof SHOTS!=='undefined'&&SHOTS[k]))return;const c=S[i].querySelector('.v-hr .v-cap');if(c)c.textContent=HERO_CAPS[k]+' · Sample data'})}
+/* === END: CARD SYSTEM === */
 
 const WHOT={Academies:['Packages','Age groups','Weekly schedule'],'Sports clubs':['Squads','Venues','Weekly poll'],'Studios & gyms':['Session packs','Check-in','Expiry'],'Schools & camps':['Guardians','Fees','Attendance'],'Leagues & events':['Registration','Payments','Rosters']};
 const WHOV={
@@ -687,9 +766,8 @@ function flowSet(i,manual){
 }
 setInterval(()=>{
  const c=(typeof cur==='number')?cur:0;
- if(c!==6){if(flI>=0)flowSet(-1);return}
- if(Date.now()<flHold)return;
- flowSet(flI+1>=FLOW.length?-1:flI+1);
+ if(c!==K('flow')){if(flI>=0)flowSet(-1);return}
+ /* no auto-advance: the steps move only when the presenter forwards (see advance/back) */
 },2000);
 $('cmp').innerHTML=`<div class="col o"><h3>Old way</h3>${OLD.map(t=>`<div class="li rv"><b>×</b>${t}</div>`).join('')}</div><div class="col n"><h3>ArtiPlay</h3>${NEW.map(t=>`<div class="li rv"><b>✓</b>${t}</div>`).join('')}</div>`;
 $('chips').innerHTML=Object.keys(WHO).map((k,i)=>`<button class="chip${i?'':' a'}" onclick="who(this,'${k}')">${k}</button>`).join('');
@@ -706,17 +784,47 @@ calc();
 let interest='Starter';
 function pick(i,b){document.querySelectorAll('#pch .chip').forEach(c=>c.classList.remove('a'));b.classList.add('a');interest=['Starter','Pro','Not sure yet'][i];if(i<2){selPlan=i;calc()}hap()}
 function syncChip(){const c=document.querySelectorAll('#pch .chip');c.forEach(x=>x.classList.remove('a'));c[selPlan].classList.add('a');interest=['Starter','Pro'][selPlan]}
-function plan(n){selPlan=n==='Pro'?1:0;calc();syncChip();toast(n+" plan selected, let's talk");cb('selectPlan',{plan:n,email:visitorEmail,source:'Pricing slide'});setTimeout(()=>go(12),260)}
+function plan(n){selPlan=n==='Pro'?1:0;calc();syncChip();toast(n+" plan selected, let's talk");cb('selectPlan',{plan:n,email:visitorEmail,source:'Pricing slide'});setTimeout(()=>go(K('talk')),260)}
 /* ===== engine ===== */
+/* === START: STORY ORDER + KEYS === */
+const SLIDE_IDS={problem:'g-real',promise:'pm-h',who:'chips',parents:'g-par',staff:'g-staff',admin:'g-adm',money:'g-pay',flow:'flow',compare:'cmp',livity:'g-liv',pilot:'g-pilot',estimate:'sl',pricing:'pr',trust:'g-trust',impl:'g-impl',talk:'f-n',about:'msgb'};
+/* The story, in the order buyers ask their questions. Reorder here. Safe to delete: 'compare', 'who'. */
+const ORDER=['problem','promise','who','parents','staff','admin','money','flow','compare','livity','pilot','estimate','pricing','trust','impl','talk','about'];
+(function(){const tr=$('track'),sec=k=>[...tr.children].find(s=>s.querySelector('#'+SLIDE_IDS[k]));
+ ORDER.forEach(k=>{const s=sec(k);if(s)tr.appendChild(s)});
+ [...tr.children].forEach(s=>{if(!ORDER.some(k=>s.querySelector('#'+SLIDE_IDS[k])))s.remove()});})();
+const K=k=>S.findIndex(s=>s.querySelector('#'+SLIDE_IDS[k]));
+const BEATS={problem:'01 · THE PROBLEM',promise:'02 · THE PROMISE',who:'02 · THE PROMISE · WHO IT IS FOR',parents:'03 · THE PRODUCT · PARENTS & PLAYERS',staff:'03 · THE PRODUCT · COACHES & STAFF',admin:'03 · THE PRODUCT · ADMINS',money:'03 · THE PRODUCT · PAYMENTS',flow:'04 · ONE CONNECTED WORKFLOW',compare:'04 · ONE CONNECTED WORKFLOW · A WEEK, TWO WAYS',livity:'05 · EVIDENCE FROM LIVITY',pilot:'05 · EVIDENCE FROM LIVITY · RESULTS',estimate:'06 · THE BUSINESS CASE',pricing:'06 · THE BUSINESS CASE · COST',trust:'07 · TRUST',impl:'07 · IMPLEMENTATION',talk:'08 · THE NEXT STEP'};
+function beatsApply(){Object.keys(BEATS).forEach(k=>{const i=K(k),e=i<0?null:S[i].querySelector('.eb');if(e)e.textContent=BEATS[k]})}
+/* Real screens: paste an image URL or data URI of an anonymised live screen. Empty keeps the illustrative mock. */
+const SHOTS={parents:'',staff:'',admin:'',money:''};
+function shotsApply(){Object.keys(SHOTS).forEach(k=>{const src=SHOTS[k],i=K(k);if(!src||i<0)return;
+ const html='<div class="v-viz"><img class="sh-img" alt="Live '+k+' screen" loading="lazy" src="'+src+'"><div class="v-cap">Live screen · names changed</div></div>',r=S[i].querySelector('.v-hr');
+ if(r)r.innerHTML=html;else vHero(i,html)})}
+/* Implementation slide. Set confirmed:true only for what you will really deliver. */
+const IMPL={showUnconfirmed:true,items:[
+ {area:'MIGRATION',title:'Your data comes across',detail:'Players, guardians, packages and the weekly schedule are brought in from your current sheets and chats, then checked with you before go-live.',confirmed:false},
+ {area:'TRAINING',title:'Your team and parents are ready',detail:'Short walkthroughs for admins and coaches, plus a simple guide parents can follow on their phones.',confirmed:false},
+ {area:'GO-LIVE',title:'A guided first week',detail:'We watch the first scans and payments with you and fix anything that does not fit your routine.',confirmed:false},
+ {area:'SUPPORT',title:'Someone to call when it matters',detail:'One named contact for questions and issues, with response times agreed in writing.',confirmed:false}]};
+function implRender(){
+ const list=IMPL.items.filter(t=>IMPL.showUnconfirmed||t.confirmed);
+ $('im-l').textContent='What happens after you say yes: your data, your team and who to call.';
+ $('g-impl').innerHTML=list.map(t=>`<div class="pm ${t.confirmed?'':'plan'} rv"><small style="margin:0 0 6px">${t.area}</small><b>${t.title}</b><div class="how">${t.detail}</div><span class="pl-badge${t.confirmed?' ok':''}" style="margin:10px 0 0">${t.confirmed?'CONFIRMED':'TO CONFIRM'}</span></div>`).join('')}
+implRender();
+/* Request type for the next-step form */
+let bkReq='Personalized demo';
+function pickR(b){document.querySelectorAll('#rch .chip').forEach(c=>c.classList.remove('a'));b.classList.add('a');bkReq=b.textContent;hap()}
+/* === END: STORY ORDER + KEYS === */
 const S=[...document.querySelectorAll('.slide')],T=$('track'),st=$('stage');let cur=0;
 const rvs=i=>[...S[i].querySelectorAll('.rv')];
 function layout(){const h=innerHeight;S.forEach(s=>s.style.height=h+'px');T.style.transition='none';T.style.transform=`translateY(-${cur*h}px)`;void T.offsetWidth;T.style.transition=''}
 function chrome(){$('bar').style.width=((cur+1)/S.length*100)+'%';$('cnt').textContent=(cur+1)+' / '+S.length+' · v2';$('pv').style.visibility=cur?'visible':'hidden';$('nx').style.visibility=cur===S.length-1?'hidden':'visible';const d=S[cur].classList.contains('dark');$('cnt').style.color=d?'#777':'#555'}
-function go(i){md();toast('go: '+cur+' → '+i);i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked){i=S.length-2;if(i===cur){toast('Fill in the form or tap "Skip for now" to continue.');return}}if(i===cur)return;cur=i;S[i].querySelector('.in').scrollTop=0;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===S.length-3)calc()}
+function go(i){md();toast('go: '+cur+' → '+i);i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked){i=S.length-2;if(i===cur){toast('Fill in the form or tap "Skip for now" to continue.');return}}if(i===cur)return;cur=i;S[i].querySelector('.in').scrollTop=0;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===K('estimate'))calc()}
 function next(){return rvs(cur).find(e=>!e.classList.contains('on'))}
 function mark(e){if(e.classList.contains('node'))rvs(cur).forEach(n=>n.classList.toggle('on',false));}
-function advance(){md();const e=next();if(e){e.classList.add('on');vSee(e);if(e.classList.contains('node')){document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));}hap()}else go(cur+1)}
-function back(){md();const on=rvs(cur).filter(e=>e.classList.contains('on'));if(on.length)on[on.length-1].classList.remove('on');else go(cur-1)}
+function advance(){md();if(cur===K('flow')&&flI<FLOW.length-1){flowSet(flI+1,1);return}const e=next();if(e){e.classList.add('on');vSee(e);if(e.classList.contains('node')){document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));}hap()}else go(cur+1)}
+function back(){md();if(cur===K('flow')&&flI>=0){flowSet(flI-1,1);return}const on=rvs(cur).filter(e=>e.classList.contains('on'));if(on.length)on[on.length-1].classList.remove('on');else go(cur-1)}
 st.addEventListener('click',e=>{if(e.target.closest('button,input,textarea,.card,.chip,.price,#md'))return;advance()});
 let lock=0;st.addEventListener('wheel',e=>{const sc=e.target.closest('.in');if(sc&&sc.scrollHeight>sc.clientHeight+4){if(e.deltaY>0&&sc.scrollTop+sc.clientHeight<sc.scrollHeight-4)return;if(e.deltaY<0&&sc.scrollTop>4)return}e.preventDefault();if(lock||Math.abs(e.deltaY)<12)return;lock=1;e.deltaY>0?go(cur+1):go(cur-1);setTimeout(()=>lock=0,760)},{passive:false});
 let ty=0;st.addEventListener('touchstart',e=>ty=e.touches[0].clientY,{passive:true});
@@ -728,9 +836,9 @@ addEventListener('resize',layout);
 /* removed: the MutationObserver on #flow re-triggered itself forever (classList.remove rewrites the class attribute) */
 /* === END: FLOW CRASH FIX === */
 /* modal */
-function md(el){const m=$('md'),sc=$('sc');if(!el){m.classList.remove('on');sc.classList.remove('on');if(nsOpen){nsOpen=false;clearTimeout(nsT);go(13)}return}
+function md(el){const m=$('md'),sc=$('sc');if(!el){m.classList.remove('on');sc.classList.remove('on');if(nsOpen){nsOpen=false;clearTimeout(nsT);go(K('about'))}return}
 $('md-s').textContent=el.dataset.s||'';$('md-t').innerHTML=el.dataset.t;$('md-d').innerHTML=el.dataset.d;const b=$('md-b'),g=el.dataset.go;
-if(g!==undefined){b.style.display='';b.textContent='See this section';b.onclick=()=>{md();go(+g)}}else b.style.display='none';
+if(g!==undefined){b.style.display='';b.textContent='See this section';b.onclick=()=>{md();go(isNaN(+g)?K(g):+g)}}else b.style.display='none';
 m.classList.add('on');sc.classList.add('on');hap()}
 /* backend bridge: works in Apps Script, degrades gracefully elsewhere */
 function cb(fn,p){return new Promise((res,rej)=>{if(window.google&&google.script&&google.script.run)google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](p);else res(null)})}
@@ -749,7 +857,7 @@ function vSee(e){
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600)}
 function submitLead(){const n=$('f-n').value.trim(),b=$('f-b').value.trim();
 if(!n||!b){toast('Add your name and academy name first.');return}
-const p={fullName:n,businessName:b,players:$('f-p').value,notes:$('f-x').value,plan:interest,email:visitorEmail,estSavings:$('o-sav').textContent,estPlayers:$('s-players').value,estHours:$('s-hrs').value,source:'ArtiPlay ArtiSlide'};
+const p={fullName:n,businessName:b,players:$('f-p').value,notes:$('f-x').value,plan:interest,requestType:bkReq,email:visitorEmail,estSavings:$('o-sav').textContent,estPlayers:$('s-players').value,estHours:$('s-hrs').value,source:'ArtiPlay ArtiSlide'};
 const btn=$('send');btn.disabled=true;btn.textContent='Sending…';
 const hasBackend=window.google&&google.script&&google.script.run;
 cb('submitLead',p).then(()=>{btn.textContent='Sent ✓';if(!hasBackend)location.href='mailto:'+CONFIG.contactEmail+'?subject='+encodeURIComponent('ArtiPlay walkthrough: '+b)+'&body='+encodeURIComponent(`${n}\n${b}\n${p.players}\n${p.notes}`);setTimeout(()=>nextSteps(),1200)}).catch(()=>{btn.disabled=false;btn.textContent='Send and book a walkthrough';toast("Couldn't send. Try again.")})}
@@ -785,7 +893,7 @@ $('md-s').textContent='From first call to going live';$('md-t').textContent='Wha
 $('md-d').innerHTML='<b>01</b> A 20-minute call about your programs and fees.<br><b>02</b> A live demo with your own sample data.<br><b>03</b> Setup, most academies are live within a week.';
 $('md-b').style.display='none';$('md').classList.add('on');$('sc').classList.add('on');
 clearTimeout(nsT);nsT=setTimeout(()=>{if(nsOpen)md()},15000)}
-function skip(){unlocked=true;go(13)}
+function skip(){unlocked=true;go(K('about'))}
 function restart(){document.querySelectorAll('.rv.on').forEach(e=>e.classList.remove('on'));go(0)}
 function msgTeam(b){if(b.dataset.busy)return;b.dataset.busy=1;cb('requestMessage',{email:visitorEmail});hap();b.textContent='Sending…';
 setTimeout(()=>{b.textContent='Sent ✓';setTimeout(()=>{b.textContent='Message our ArtiSlide team';delete b.dataset.busy;$('ov').classList.add('on')},1100)},850)}
@@ -860,15 +968,15 @@ function vHero(i,html){
  w.appendChild(L);w.appendChild(R);
 }
 function vInject(){
- vHero(3,V_SCAN);vHero(4,V_DASH);vHero(5,V_PEN);vHero(7,V_BROWSER);
- const L1=S[1].querySelector('.split>div');if(L1)L1.insertAdjacentHTML('beforeend',V_TICK);
+ vHero(K('staff'),V_SCAN);vHero(K('admin'),V_DASH);vHero(K('money'),V_PEN);vHero(K('livity'),V_BROWSER);
+ const L1=S[K('promise')].querySelector('.split>div');if(L1)L1.insertAdjacentHTML('beforeend',V_TICK);
  const fl=$('flow');
  if(fl){
   const FI=['user','pay','shield','cal','qr','ticket'];
   fl.querySelectorAll('.node i').forEach((e,k)=>{e.innerHTML='<svg viewBox="0 0 24 24">'+VIC[FI[k]]+'</svg>'});
  }
- const R12=S[12].querySelector('.split>div:nth-child(2)');if(R12)R12.insertAdjacentHTML('afterbegin',V_STEPS);
- const I13=S[13].querySelector('.in');if(I13)I13.insertAdjacentHTML('afterbegin',V_DECK);
+ const R12=S[K('talk')].querySelector('.split>div:nth-child(2)');if(R12)R12.insertAdjacentHTML('afterbegin',V_STEPS);
+ const I13=S[K('about')].querySelector('.in');if(I13)I13.insertAdjacentHTML('afterbegin',V_DECK);
 }
 function vCount(s){
  s.querySelectorAll('[data-count]').forEach(el=>{
@@ -894,7 +1002,7 @@ function vSav(){
 }
 const _vCalc=calc;calc=function(){_vCalc();vSav()};
 
-vInject();
+vInject();shotsApply();beatsApply();capsApply();
 /* ===================== END VISUAL LAYER (B) ===================== */
 layout();chrome();
 </script></body></html>
