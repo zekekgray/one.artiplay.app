@@ -724,9 +724,9 @@ st.addEventListener('touchend',e=>{const d=ty-e.changedTouches[0].clientY;const 
 document.addEventListener('keydown',e=>{if(/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
 if(e.key==='ArrowDown'||e.key==='PageDown')go(cur+1);else if(e.key==='ArrowUp'||e.key==='PageUp')go(cur-1);else if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();advance()}else if(e.key==='ArrowLeft')back();else if(e.key==='Escape')md();else if(e.key==='Home')go(0);else if(e.key==='End')go(S.length-1)});
 addEventListener('resize',layout);
-/* highlight current flow node */
-setInterval(()=>{const on=[...document.querySelectorAll('#flow .node.on')];document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));},1e9);
-new MutationObserver(()=>{const ns=[...document.querySelectorAll('#flow .node')];ns.forEach(n=>n.classList.remove('hot'));const on=ns.filter(n=>n.classList.contains('on'));},{attributes:true,subtree:true}).observe($('flow'),{attributes:true,subtree:true});
+/* === START: FLOW CRASH FIX === */
+/* removed: the MutationObserver on #flow re-triggered itself forever (classList.remove rewrites the class attribute) */
+/* === END: FLOW CRASH FIX === */
 /* modal */
 function md(el){const m=$('md'),sc=$('sc');if(!el){m.classList.remove('on');sc.classList.remove('on');if(nsOpen){nsOpen=false;clearTimeout(nsT);go(13)}return}
 $('md-s').textContent=el.dataset.s||'';$('md-t').innerHTML=el.dataset.t;$('md-d').innerHTML=el.dataset.d;const b=$('md-b'),g=el.dataset.go;
