@@ -819,5 +819,6 @@ const _vCalc=calc;calc=function(){_vCalc();vSav()};
 
 vInject();
 /* ===================== END VISUAL LAYER (B) ===================== */
+function vSee(e){const inn=e.closest('.in');if(!inn)return;const r=e.getBoundingClientRect(),b=inn.getBoundingClientRect();if(r.bottom>b.bottom-24)inn.scrollBy({top:r.bottom-b.bottom+48,behavior:'smooth'})}
 layout();chrome();
 </script></body></html>
