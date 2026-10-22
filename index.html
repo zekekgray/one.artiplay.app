@@ -712,7 +712,7 @@ const S=[...document.querySelectorAll('.slide')],T=$('track'),st=$('stage');let 
 const rvs=i=>[...S[i].querySelectorAll('.rv')];
 function layout(){const h=innerHeight;S.forEach(s=>s.style.height=h+'px');T.style.transition='none';T.style.transform=`translateY(-${cur*h}px)`;void T.offsetWidth;T.style.transition=''}
 function chrome(){$('bar').style.width=((cur+1)/S.length*100)+'%';$('cnt').textContent=(cur+1)+' / '+S.length+' · v2';$('pv').style.visibility=cur?'visible':'hidden';$('nx').style.visibility=cur===S.length-1?'hidden':'visible';const d=S[cur].classList.contains('dark');$('cnt').style.color=d?'#777':'#555'}
-function go(i){md();i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked){i=S.length-2;if(i===cur){toast('Fill in the form or tap "Skip for now" to continue.');return}}if(i===cur)return;cur=i;S[i].querySelector('.in').scrollTop=0;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===S.length-3)calc()}
+function go(i){md();toast('go: '+cur+' → '+i);i=Math.max(0,Math.min(S.length-1,i));if(i===S.length-1&&!unlocked){i=S.length-2;if(i===cur){toast('Fill in the form or tap "Skip for now" to continue.');return}}if(i===cur)return;cur=i;S[i].querySelector('.in').scrollTop=0;T.style.transform=`translateY(-${cur*innerHeight}px)`;chrome();hap();typeH(cur);if(cur===S.length-3)calc()}
 function next(){return rvs(cur).find(e=>!e.classList.contains('on'))}
 function mark(e){if(e.classList.contains('node'))rvs(cur).forEach(n=>n.classList.toggle('on',false));}
 function advance(){md();const e=next();if(e){e.classList.add('on');vSee(e);if(e.classList.contains('node')){document.querySelectorAll('#flow .node').forEach(n=>n.classList.remove('lit'));}hap()}else go(cur+1)}
@@ -866,7 +866,6 @@ function vInject(){
  if(fl){
   const FI=['user','pay','shield','cal','qr','ticket'];
   fl.querySelectorAll('.node i').forEach((e,k)=>{e.innerHTML='<svg viewBox="0 0 24 24">'+VIC[FI[k]]+'</svg>'});
-  new MutationObserver(()=>{const ns=[...fl.querySelectorAll('.node')];const n=ns.filter(x=>x.classList.contains('on')).length;fl.style.setProperty('--p',Math.max(0,(n-1)/(ns.length-1)))}).observe(fl,{attributes:true,subtree:true,attributeFilter:['class']});
  }
  const R12=S[12].querySelector('.split>div:nth-child(2)');if(R12)R12.insertAdjacentHTML('afterbegin',V_STEPS);
  const I13=S[13].querySelector('.in');if(I13)I13.insertAdjacentHTML('afterbegin',V_DECK);
