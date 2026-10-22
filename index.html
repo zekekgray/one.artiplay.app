@@ -400,14 +400,42 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
  .in{padding-top:64px;padding-bottom:36px}
  .lede{margin-bottom:12px}
 }
+/* page 7: How it works (no reveal) */
+#flow[hidden]{display:none!important}
+.hw{display:grid;grid-template-columns:.95fr 1.05fr;gap:20px;align-items:stretch;margin-top:6px}
+.hw-steps{display:grid;gap:7px}
+.hw-s{display:flex;gap:12px;align-items:center;text-align:left;padding:9px 12px;border-radius:16px;background:#F7F2E6;border:1px solid rgba(28,28,30,.1);color:var(--t1);transition:background .35s,color .35s,transform .3s var(--sp)}
+.hw-s:active{transform:scale(.97)}
+.hw-s i{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#fff;border:1px solid rgba(28,28,30,.1)}
+.hw-s i svg,.hw-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hw-s b{display:block;font-size:13.5px}
+.hw-s span{font-size:11.5px;opacity:.6}
+.hw-s.on{background:var(--ink);color:#F5F0E6;transform:translateX(4px)}
+.hw-s.on i{background:var(--g);color:#04210d;border-color:var(--g)}
+.hw-panel{background:linear-gradient(160deg,#1f2023,#141416);color:var(--c1);border-radius:24px;padding:22px;display:flex;flex-direction:column;justify-content:center;min-height:270px;box-shadow:0 22px 48px rgba(20,19,16,.28)}
+.hw-in{animation:hwIn .5s var(--ease)}
+@keyframes hwIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.hw-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.hw-top small{font:600 10px var(--m);letter-spacing:.1em;color:var(--c3)}
+.hw-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:rgba(48,209,88,.16);color:var(--g)}
+.hw-panel h3{margin:0 0 8px;font-size:22px;letter-spacing:-.01em}
+.hw-panel p{margin:0 0 16px;font-size:13.5px;line-height:1.55;color:var(--c2)}
+.hw-pill{align-self:flex-start;font:700 13px var(--m);padding:8px 14px;border-radius:14px;background:rgba(48,209,88,.16);color:var(--g)}
+.hw-dots{display:flex;gap:5px;margin-top:18px}
+.hw-dots u{flex:1;height:4px;border-radius:3px;background:rgba(255,255,255,.12);transition:background .4s}
+.hw-dots u.f{background:var(--g)}
+.hw-hint{font:600 10.5px var(--m);letter-spacing:.06em;opacity:.45;margin-top:10px}
 @media(max-width:900px){
- #flow .node{padding:2px 0}
- #flow .node i{width:40px;height:40px;border-radius:13px;margin-bottom:4px}
- #flow .node i svg{width:19px;height:19px}
- #flow .node span{display:none}
- .v-led small{display:none}
- .v-led{padding:8px 12px}
+ .hw{grid-template-columns:1fr;gap:12px}
+ .hw-steps{grid-template-columns:1fr 1fr;gap:6px}
+ .hw-s{padding:7px 9px;gap:8px}
+ .hw-s span{display:none}
+ .hw-s b{font-size:12px}
+ .hw-s.on{transform:none}
+ .hw-panel{min-height:0;padding:16px}
+ .hw-panel h3{font-size:18px}
 }
+@media(prefers-reduced-motion:reduce){.hw-in{animation:none}}
 /* ===================== END VISUAL LAYER ===================== */
 </style></head><body>
 <div id="bar"></div>
@@ -469,8 +497,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <section class="slide light"><div class="in">
 <div class="eb">HOW IT WORKS</div>
 <h2>From enrollment to a deducted session.</h2>
-<p class="lede rv">Tap Next to walk through one player's journey.</p>
-<div class="flow" id="flow"></div>
+<div class="hw">
+<div class="hw-steps" id="hwSteps"></div>
+<div class="hw-panel" id="hwPanel"></div>
+</div>
+<div class="hw-hint">Tap a step. It also plays by itself.</div>
+<div id="flow" hidden></div>
 </div></section>
 
 <section class="slide dark"><div class="in">
@@ -628,7 +660,23 @@ function whoLegacy(b,k){
 
 function cardsLegacy(id,arr,withGo,rv){$(id).innerHTML=arr.map((a,i)=>`<div class="card rv" onclick="md(this)" data-t="${a[0]}" data-s="${a[2]||''}" data-d="${a[1]}"${a[3]?` data-go="${a[3]}"`:''}><span class="tag">${String(i+1).padStart(2,'0')}</span><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}
 cards('g-real',REAL);cards('g-par',PAR);cards('g-staff',STAFF);cards('g-adm',ADM);cards('g-pay',PAY);cards('g-liv',LIV);
-$('flow').innerHTML=FLOW.map((f,i)=>`<div class="node rv"><i>${i+1}</i><b>${f[0]}</b><span>${f[1]}</span></div>`).join('');
+const HW=[
+['Enroll','Choose program and package','Parent enrolls online','One player profile, one package. No more forms lost in Messenger.','Pending payment','user'],
+['Pay','Send proof of payment','Upload the receipt photo','The server clock starts the deadline and computes any late penalty.','Proof uploaded','pay'],
+['Verify','Admin confirms the amount','Verified in one queue','Full, partial or rejected. Every decision is written to the ledger.','Paid ✓','shield'],
+['Reserve','Going or Not going','Weekly poll','Parents tap Going or Not going. Coaches see the headcount before training.','Going ✓','cal'],
+['Scan','QR check-in at the venue','Coach scans the QR','Present or Late is recorded. Works offline and syncs when signal returns.','Present','qr'],
+['Deduct','One session, once','One session deducted','A repeat scan changes nothing. The count goes down exactly once.','Sessions left 8 → 7','ticket']];
+let hwI=0,hwHold=0;
+function hwDraw(){
+ document.querySelectorAll('#hwSteps .hw-s').forEach((b,i)=>b.classList.toggle('on',i===hwI));
+ const s=HW[hwI];
+ $('hwPanel').innerHTML=`<div class="hw-in"><div class="hw-top"><i class="hw-ic"><svg viewBox="0 0 24 24">${VIC[s[5]]}</svg></i><small>STEP ${hwI+1} OF ${HW.length}</small></div><h3>${s[2]}</h3><p>${s[3]}</p><div class="hw-pill">${s[4]}</div><div class="hw-dots">${HW.map((_,k)=>`<u class="${k<=hwI?'f':''}"></u>`).join('')}</div></div>`;
+}
+function hwSet(i,manual){hwI=i;if(manual)hwHold=Date.now()+8000;hwDraw()}
+$('hwSteps').innerHTML=HW.map((s,i)=>`<button type="button" class="hw-s" onclick="hwSet(${i},1)"><i><svg viewBox="0 0 24 24">${VIC[s[5]]}</svg></i><div><b>${i+1}. ${s[0]}</b><span>${s[1]}</span></div></button>`).join('');
+hwDraw();
+setInterval(()=>{const c=(typeof cur==='number')?cur:0;if(c!==6){if(hwI)hwSet(0);return}if(Date.now()<hwHold)return;hwSet((hwI+1)%HW.length)},3200);
 $('cmp').innerHTML=`<div class="col o"><h3>Old way</h3>${OLD.map(t=>`<div class="li rv"><b>×</b>${t}</div>`).join('')}</div><div class="col n"><h3>ArtiPlay</h3>${NEW.map(t=>`<div class="li rv"><b>✓</b>${t}</div>`).join('')}</div>`;
 $('chips').innerHTML=Object.keys(WHO).map((k,i)=>`<button class="chip${i?'':' a'}" onclick="who(this,'${k}')">${k}</button>`).join('');
 function who(b,k){document.querySelectorAll('#chips .chip').forEach(c=>c.classList.remove('a'));b.classList.add('a');$('who').innerHTML=`<b>${k}</b><span>${WHO[k]}</span>`;hap()}
@@ -804,7 +852,6 @@ function vInject(){
  if(fl){
   const FI=['user','pay','shield','cal','qr','ticket'];
   fl.querySelectorAll('.node i').forEach((e,k)=>{e.innerHTML='<svg viewBox="0 0 24 24">'+VIC[FI[k]]+'</svg>'});
-  fl.insertAdjacentHTML('afterend',V_LEDGER);
   new MutationObserver(()=>{const ns=[...fl.querySelectorAll('.node')];const n=ns.filter(x=>x.classList.contains('on')).length;fl.style.setProperty('--p',Math.max(0,(n-1)/(ns.length-1)))}).observe(fl,{attributes:true,subtree:true,attributeFilter:['class']});
  }
  const R12=S[12].querySelector('.split>div:nth-child(2)');if(R12)R12.insertAdjacentHTML('afterbegin',V_STEPS);
