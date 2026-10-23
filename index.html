@@ -754,13 +754,13 @@ function cx(el){const open=!el.classList.contains('open');
  el.parentElement.querySelectorAll('.card.open').forEach(c=>{if(c!==el)c.classList.remove('open')});
  el.classList.toggle('open',open);el.setAttribute('aria-expanded',open);hap();if(open)vSee(el)}
 function cards(id,arr){
- const pain=arr===REAL;
+ const pain=arr===REAL,par=arr===PAR,stf=arr===STAFF,adm=arr===ADM,pay=arr===PAY,liv=arr===LIV;
  $(id).innerHTML=arr.map((a,i)=>{
   const x=CARDX[a[0]]||{},tgt=x.act?x.act[1]:(pain&&a[3]?a[3]:''),lab=x.act?x.act[0]:'See how ArtiPlay handles it',
-   out=x.out||(pain&&a[2]?a[2]:''),d=x.data,more=x.more||'',shot=x.shot||'',expand=!!(tgt||more||shot);
+   out=x.out||(pain&&a[2]?a[2]:''),d=x.data,more=x.more||'',shot=x.shot||'',expand=!!(tgt||more||shot||par||stf||adm||pay||liv);
   const strip=d?`<div class="cx-d"><i class="cx-av">${d.who.charAt(0)}</i><div class="cx-t"><small>${d.k}</small><b>${d.who}</b><u>${d.line}</u></div><em class="cx-pill ${d.tone||''}">${d.pill}</em></div><div class="cx-s">${x.real?'LIVE DATA · NAMES CHANGED':'SAMPLE DATA'}</div>`:'';
   const body=expand?`<div class="cx-more">${shot?`<div class="cx-shot"><img src="${shot}" alt="${a[0]} screen" loading="lazy" style="object-position:${x.pos||'top'}"></div><div class="cx-s">${x.real?'LIVE SCREEN · NAMES CHANGED':'SCREEN · SAMPLE DATA'}</div>`:''}${more?`<p>${more}</p>`:''}${tgt?`<button class="btn cx-go" onclick="event.stopPropagation();cxGo('${tgt}')">${lab}</button>`:''}</div>`:'';
-  return `<div class="card rv cx"${expand?` onclick="${pain?'rmOpen('+i+')':'cx(this)'}" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter')${pain?'rmOpen('+i+')':'cx(this)'}"`:' style="cursor:default"'}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><div class="cx-hr"><span class="tag">${String(i+1).padStart(2,'0')}</span>${expand?'<i class="cx-ch">+</i>':''}</div></div><b>${a[0]}</b><span>${a[1]}</span>${strip}${out?`<em class="v-fx">→ ${out}</em>`:''}${body}</div>`}).join('')}
+  return `<div class="card rv cx"${expand?` onclick="${pain?'rmOpen('+i+')':par?'pkOpen('+i+')':stf?'sfOpen('+i+')':adm?'adOpen('+i+')':pay?'pyOpen('+i+')':liv?'lvOpen('+i+')':'cx(this)'}" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter')${pain?'rmOpen('+i+')':par?'pkOpen('+i+')':stf?'sfOpen('+i+')':adm?'adOpen('+i+')':pay?'pyOpen('+i+')':liv?'lvOpen('+i+')':'cx(this)'}"`:' style="cursor:default"'}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><div class="cx-hr"><span class="tag">${String(i+1).padStart(2,'0')}</span>${expand?'<i class="cx-ch">+</i>':''}</div></div><b>${a[0]}</b><span>${a[1]}</span>${strip}${out?`<em class="v-fx">→ ${out}</em>`:''}${body}</div>`}).join('')}
 /* Benefit-first captions under the animated mocks. Skipped when a real screenshot replaces the mock. */
 const HERO_CAPS={staff:'One scan records Present or Late',admin:'Payments, attendance and cash in one console',money:'What is owed, from the server clock'};
 function capsApply(){Object.keys(HERO_CAPS).forEach(k=>{const i=K(k);if(i<0||(typeof SHOTS!=='undefined'&&SHOTS[k]))return;const c=S[i].querySelector('.v-hr .v-cap');if(c)c.textContent=HERO_CAPS[k]+' · Sample data'})}
@@ -853,7 +853,7 @@ const IMPL={showUnconfirmed:true,items:[
 function implRender(){
  const list=IMPL.items.filter(t=>IMPL.showUnconfirmed||t.confirmed);
  $('im-l').textContent='What happens after you say yes: your data, your team and who to call.';
- $('g-impl').innerHTML=list.map(t=>`<div class="pm ${t.confirmed?'':'plan'} rv"><small style="margin:0 0 6px">${t.area}</small><b>${t.title}</b><div class="how">${t.detail}</div><span class="pl-badge${t.confirmed?' ok':''}" style="margin:10px 0 0">${t.confirmed?'CONFIRMED':'TO CONFIRM'}</span></div>`).join('')}
+ $('g-impl').innerHTML=list.map((t,i)=>`<div class="pm ${t.confirmed?'':'plan'} rv" onclick="event.stopPropagation();imOpen(${i})" role="button" tabindex="0" style="cursor:pointer" onkeydown="if(event.key==='Enter')imOpen(${i})"><small style="margin:0 0 6px">${t.area}</small><b>${t.title}</b><div class="how">${t.detail}</div><span class="pl-badge${t.confirmed?' ok':''}" style="margin:10px 0 0">${t.confirmed?'CONFIRMED':'TO CONFIRM'}</span></div>`).join('')}
 implRender();
 /* Request type for the next-step form */
 let bkReq='Personalized demo';
@@ -1117,6 +1117,224 @@ function pmDraw(){
  if(pmTab===1)pmCalc();
 }
 /* === END: PROMISE MODULE JS === */
+/* === START: PARENTS MODULE JS === */
+const PK=[
+{t:"Find my player",ic:"search",sl:["Find-my-player questions per month",10,300,60,3],
+ steps:[["Open the app","There is no account or password to set up."],["Enter the mobile number or Player ID","Either one works. No password to forget."],["The player page opens","Sessions left, schedule, payments and the QR pass are all in one place."]],
+ pairs:[["I forgot my password","There is none to forget"],["Which number did I register with?","Use the mobile number or the Player ID"]]},
+{t:"Sessions left",ic:"ticket",sl:["Balance questions per month",20,600,150,2],
+ steps:[["Open the player page","The remaining sessions are the first thing you see."],["Check the expiry date","The package validity is shown next to the count."],["Tap top-up when low","Renew from the same screen, no message to the admin."]],
+ pairs:[["How many sessions are left?","Remaining sessions on your phone"],["When does the package expire?","The expiry date, shown with the count"],["How do I renew?","A top-up button on the same screen"]]},
+{t:"Schedule",ic:"cal",sl:["Schedule questions per month",20,500,120,2],
+ steps:[["Open the weekly view","See the week by day or by program."],["Find your child’s session","Venue and time are shown for each session."],["Spot a cancellation","Cancelled sessions are marked in the schedule."]],
+ pairs:[["What time is training?","The weekly schedule, by day or by program"],["Is training cancelled?","Cancellations shown in the schedule"]]},
+{t:"Weekly poll",ic:"bell",sl:["Last-minute cancels per month",5,200,25,6],
+ steps:[["Open the weekly poll","Each session asks one question: are you coming?"],["Tap Going or Not going","One tap. No message to the coach."],["See who else is confirmed","Confirmed players are visible, so coaches know the headcount."]],
+ pairs:[["How do I tell the coach we can’t come?","Tap Not going in the poll"],["Who else is coming?","Confirmed players are shown in the app"]]},
+{t:"Payments",ic:"pay",sl:["Payment questions per month",10,400,80,3],
+ steps:[["See the amount due","The amount and the live deadline are shown."],["Upload the proof of payment","Attach the receipt photo in the app."],["Get the receipt","Once the admin verifies, the receipt is on your phone."]],
+ pairs:[["How much do I owe?","Amount due with the live deadline"],["Did my payment go through?","Verified status and receipts"]]},
+{t:"QR pass",ic:"qr",sl:["Check-in problems per month",5,200,30,4],
+ steps:[["Open the QR pass","A scannable ID for your player."],["Show it at the venue","The coach scans it with the camera."],["Works with weak signal","The pass works offline once it has loaded."]],
+ pairs:[["How does my child check in?","Show the QR pass to the coach"],["What if the signal is weak?","The QR pass works offline once loaded"]]},
+{t:"Ask Admin",ic:"chat",sl:["Questions sent to the admin per month",10,400,70,4],
+ steps:[["Open Ask Admin","An in-app chat, separate from your family and group chats."],["Type your question","Everything stays in one thread."],["The reply comes back in the app","The admin answers from the console."]],
+ pairs:[["Where do I ask the admin?","Ask Admin, inside the app"],["Will my question get lost in a group chat?","It is a separate in-app thread"]]},
+{t:"Multiple children",ic:"users",sl:["Sibling questions per month",5,200,25,3],
+ steps:[["Sign in with one guardian number","All your children are linked to it."],["Tap a sibling","Switch between children with one tap."],["See each child’s own page","Sessions, schedule and QR pass are per child."]],
+ pairs:[["Do I need a separate login for each child?","No. One guardian number, several children"],["How do I see my other child?","Tap their name to switch"]]},
+{t:"Player photo",ic:"camera",sl:["Check-ins per month",20,800,200,1],
+ steps:[["Add your child’s photo","Uploaded once, in the player profile."],["The coach scans the QR","The photo appears on the scanner screen."],["Check-in is confirmed by face","The coach sees who is in front of them."]],
+ pairs:[["How does the coach know it’s my child?","A photo appears when the QR is scanned"]]}
+];
+let pkI=0,pkTab=0;
+function pkOpen(i){pkI=i;pkTab=0;pkDraw();$('rm').classList.add('on');hap()}
+function pkNav(d){pkI=(pkI+d+PK.length)%PK.length;pkTab=0;pkDraw();hap()}
+function pkTabSet(t){pkTab=t;pkDraw();hap()}
+function pkCalc(){const m=PK[pkI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function pkDraw(){
+ const m=PK[pkI],s=m.sl;let body='';
+ if(pkTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHAT HAPPENS</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(pkTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="pkCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>admin time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes of admin time per question. Your numbers will differ.</div>`;
+ else body='<p class="rm-hint">WHAT A PARENT ASKS, AND WHAT THE APP SHOWS</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>PARENT ASKS</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>FOR PARENTS &amp; PLAYERS</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How it works','What it saves','Common questions'].map((t,k)=>`<button class="${k===pkTab?'a':''}" onclick="pkTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="pkNav(-1)" aria-label="Previous">‹</button><span>${pkI+1} / ${PK.length}</span><button class="rm-ar" onclick="pkNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+ if(pkTab===1)pkCalc();
+}
+/* === END: PARENTS MODULE JS === */
+/* === START: STAFF MODULE JS === */
+const SF=[
+{t:"Staff sign-in",ic:"shield",sl:["Staff logins to sort out per month",5,200,20,5],
+ steps:[["Enter the staff key","A staff key gates the scanner."],["The scanner opens","Only signed-in staff can record check-ins."],["Sessions expire on idle","If the phone is left alone, it signs out by itself."]],
+ pairs:[["Can anyone use the scanner?","No. A staff key gates it"],["What if I leave my phone unattended?","The session expires on idle"]]},
+{t:"QR scanner",ic:"qr",sl:["Check-ins per month",50,2000,400,0.5],
+ steps:[["Point the camera at the player QR","The scan reads the player's pass."],["The player appears","Photo and sessions left are shown at check-in."],["No QR? Type the Player ID","A manual Player ID fallback is built in."]],
+ pairs:[["Who is this player?","The photo and name appear at the scan"],["How many sessions do they have left?","Sessions left are shown at check-in"],["The QR will not scan","Enter the Player ID manually"]]},
+{t:"Offline mode",ic:"wifioff",sl:["Weak-signal check-ins per month",5,300,40,2],
+ steps:[["Scan with no signal","The scan is accepted on the phone."],["Scans wait in a queue","The scanner shows how many are queued."],["Signal returns, scans sync","Queued scans are sent automatically."]],
+ pairs:[["What if the field has no signal?","Scans queue on the phone"],["Will the scans be lost?","They sync when signal returns"]]},
+{t:"Present or Late",ic:"clip",sl:["Late arrivals per month",5,200,30,3],
+ steps:[["The session start is on record","Each session has a start time."],["The grace period applies","Lateness is computed from the start and a grace period."],["Present or Late is recorded","No case-by-case decisions at the field."]],
+ pairs:[["Is this player late?","Computed from the session start and a grace period"],["Who decides?","The rule decides, not the coach"]]},
+{t:"No duplicate check-ins",ic:"check",sl:["Double scans per month",5,200,20,3],
+ steps:[["A player is scanned","One session is deducted, once."],["The same QR is scanned again","The app recognises the repeat."],["Nothing changes","A repeat scan never deducts a second session."]],
+ pairs:[["Did I already scan this player?","A repeat scan changes nothing"],["Was a session deducted twice?","No. A repeat scan never deducts a second session"]]},
+{t:"Coach availability",ic:"cal",sl:["Coverage messages per month",5,200,25,4],
+ steps:[["Open the week's sessions","See the sessions for the week."],["Mark the ones you can take","Tell the admin your availability in the app."],["The admin assigns","Assigned by hand or auto-assigned from availability."]],
+ pairs:[["Can I cover Saturday?","Mark the sessions you can take"],["Who is assigned to this session?","Coach assignment per session, in the admin console"]]}
+];
+let sfI=0,sfTab=0;
+function sfOpen(i){sfI=i;sfTab=0;sfDraw();$('rm').classList.add('on');hap()}
+function sfNav(d){sfI=(sfI+d+SF.length)%SF.length;sfTab=0;sfDraw();hap()}
+function sfTabSet(t){sfTab=t;sfDraw();hap()}
+function sfCalc(){const m=SF[sfI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function sfDraw(){
+ const m=SF[sfI],s=m.sl;let body='';
+ if(sfTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHAT HAPPENS</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(sfTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="sfCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes saved per item. Your numbers will differ.</div>`;
+ else body='<p class="rm-hint">WHAT A COACH ASKS, AND WHAT THE APP SHOWS</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>COACH ASKS</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>FOR COACHES &amp; STAFF</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How it works','What it saves','Common questions'].map((t,k)=>`<button class="${k===sfTab?'a':''}" onclick="sfTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="sfNav(-1)" aria-label="Previous">‹</button><span>${sfI+1} / ${SF.length}</span><button class="rm-ar" onclick="sfNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+ if(sfTab===1)sfCalc();
+}
+/* === END: STAFF MODULE JS === */
+/* === START: ADMIN MODULE JS === */
+const AD=[
+{t:"Payment approvals",ic:"pay",sl:["Payments to verify per month",10,500,120,4],
+ steps:[["Open the queue","Uploaded proofs wait in one place."],["Check the amount received","Duplicate photos and references are flagged for you."],["Verify, reject or reverse","Partial payments are supported. A short payment keeps the balance open."]],
+ pairs:[["What needs my approval?","Pending payments in one queue"],["The parent paid only part of it","Record the partial amount, the balance stays open"],["Is this receipt a duplicate?","Duplicate photos and references are flagged"]]},
+{t:"Roster and poll",ic:"users",sl:["Headcount checks per month",10,300,60,3],
+ steps:[["Parents answer the weekly poll","Going or Not going, one tap."],["Open a session","See confirmed, expected and not-going players."],["Plan with the real headcount","Academy players are expected unless they tap Not going."]],
+ pairs:[["Who is coming on Saturday?","Confirmed, expected and not-going players per session"],["Who has not answered?","Expected players are listed separately"]]},
+{t:"Coach assignment",ic:"user",sl:["Coverage arrangements per month",5,200,25,5],
+ steps:[["Coaches mark their availability","Each coach tells the app which sessions they can take."],["Choose how to assign","Assign by hand or auto-assign from availability."],["Every session has a coach","The roster shows who is assigned to each session."]],
+ pairs:[["Which session has no coach?","Coach assignment per session"],["Who can cover Saturday?","Coaches' availability for the week"]]},
+{t:"Ledger",ic:"list",sl:["Balance disputes per month",2,100,12,15],
+ steps:[["Every charge is recorded","Nothing is typed over."],["Waivers and refunds need a reason","Adjustments are written to the ledger with the reason."],["Large adjustments need a second approver","One person cannot quietly change a big number."]],
+ pairs:[["Why is this balance what it is?","An append-only record of every charge, waiver and refund"],["Who approved this waiver?","The reason is on file, large ones need a second approver"]]},
+{t:"Enrollment review",ic:"check",sl:["Enrollments per month",5,200,30,6],
+ steps:[["A new enrollment arrives","The parent filled in the form online."],["Review the details","Check the player profile and the chosen package."],["Approve, send back or decline","Send it back for correction instead of retyping it yourself."]],
+ pairs:[["Are the details complete?","Review the player profile in one place"],["Something is missing or wrong","Send it back for correction"]]},
+{t:"Reports and alerts",ic:"chart",sl:["Reports compiled by hand per month",1,30,4,45],
+ steps:[["Open the console","Collected, attendance and to-verify are on one dashboard."],["Read the summaries","Daily, weekly and monthly summaries."],["Act on expiry reminders","See whose package is about to expire."]],
+ pairs:[["How much was collected this week?","Daily, weekly and monthly summaries"],["Whose package is expiring?","Expiry reminders"]]},
+{t:"Walk-ins and exceptions",ic:"bolt",sl:["Attendance exceptions per month",5,200,20,5],
+ steps:[["Open the exceptions list","Unmarked, absent and unmatched check-ins are gathered together."],["Review each one","Decide what really happened."],["Resolve it with a reason","The decision is written to the record."]],
+ pairs:[["A player showed up but was not scanned","Review unmarked and unmatched check-ins"],["Who was absent?","Absent players are listed for review"]]},
+{t:"Audit log",ic:"shield",sl:["Who-changed-this questions per month",2,100,10,10],
+ steps:[["A sensitive change is made","It needs a reason."],["It is written to the log","Who changed it, when, and why."],["Look it up later","Settle a dispute from the record, not from memory."]],
+ pairs:[["Who changed this?","The audit log shows who, when and why"],["Can I trust the numbers?","Sensitive changes leave a trail"]]},
+{t:"Settings",ic:"gear",sl:["Rule changes per month",1,30,4,30],
+ steps:[["Open Settings","Penalty rules, deadlines and keys are there."],["Change a value","No code to touch."],["The app uses it right away","Penalties are computed from the new rule."]],
+ pairs:[["How do I change the late penalty?","Set the flat or per-day penalty in Settings"],["How do I change the deadline?","Set it in Settings, without touching code"]]}
+];
+let adI=0,adTab=0;
+function adOpen(i){adI=i;adTab=0;adDraw();$('rm').classList.add('on');hap()}
+function adNav(d){adI=(adI+d+AD.length)%AD.length;adTab=0;adDraw();hap()}
+function adTabSet(t){adTab=t;adDraw();hap()}
+function adCalc(){const m=AD[adI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function adDraw(){
+ const m=AD[adI],s=m.sl;let body='';
+ if(adTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHAT HAPPENS</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(adTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="adCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>admin time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes saved per item. Your numbers will differ.</div>`;
+ else body='<p class="rm-hint">WHAT AN ADMIN ASKS, AND WHAT THE APP SHOWS</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>ADMIN ASKS</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>FOR ADMINS</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How it works','What it saves','Common questions'].map((t,k)=>`<button class="${k===adTab?'a':''}" onclick="adTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="adNav(-1)" aria-label="Previous">‹</button><span>${adI+1} / ${AD.length}</span><button class="rm-ar" onclick="adNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+ if(adTab===1)adCalc();
+}
+/* === END: ADMIN MODULE JS === */
+/* === START: PAYMENTS MODULE JS === */
+const PY=[
+{t:"Live late-penalty clock",ic:"clock",sl:["Late-fee disputes per month",2,100,10,10],
+ steps:[["Set the deadline and grace period","Set them once in Settings, without touching code."],["Choose a flat or per-day penalty","The rule is yours. The app follows it."],["The server clock does the math","The penalty is computed live from the server clock."],["Parents see what is owed right now","Nobody argues about the amount."]],
+ pairs:[["How much do I owe right now?","Amount due with the live penalty"],["Why was I charged a late fee?","The deadline and penalty rule are set once and applied the same way to everyone"],["How do I change the penalty?","Set the flat or per-day penalty in Settings"]]},
+{t:"Proof of payment",ic:"camera",sl:["Screenshots matched by hand per month",10,500,120,4],
+ steps:[["The guardian uploads the receipt photo","Attached in the app, no chat screenshot."],["The app checks for repeats","Duplicate photos and references are flagged for the admin."],["The proof waits in one queue","The admin reviews it there."]],
+ pairs:[["Did my payment go through?","Verified status and receipts"],["Is this receipt a duplicate?","Duplicate photos and references are flagged"],["Where do I send the proof?","Upload it in the app"]]},
+{t:"Verify, partial, reject",ic:"pay",sl:["Payments to verify per month",10,500,120,4],
+ steps:[["Open the proof","See what the guardian uploaded."],["Confirm the amount received","Enter what actually came in."],["Verify, reject or reverse","Every decision is written to the ledger."],["A short payment stays open","Partial payments keep the balance open."]],
+ pairs:[["The parent paid only part of it","Record the partial amount, the balance stays open"],["What needs my approval?","Pending payments in one queue"],["I verified the wrong one","Reverse it, and the ledger records it"]]},
+{t:"Ledger and approvals",ic:"list",sl:["Balance disputes per month",2,100,12,15],
+ steps:[["Every charge is recorded","Nothing is typed over."],["Waivers and adjustments need a reason","The reason is on file."],["Large ones need a second approver","One person cannot quietly change a big number."]],
+ pairs:[["Why is this balance what it is?","An append-only record of every charge, waiver and refund"],["Who approved this waiver?","The reason is on file, large ones need a second approver"]]}
+];
+let pyI=0,pyTab=0;
+function pyOpen(i){pyI=i;pyTab=0;pyDraw();$('rm').classList.add('on');hap()}
+function pyNav(d){pyI=(pyI+d+PY.length)%PY.length;pyTab=0;pyDraw();hap()}
+function pyTabSet(t){pyTab=t;pyDraw();hap()}
+function pyCalc(){const m=PY[pyI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function pyDraw(){
+ const m=PY[pyI],s=m.sl;let body='';
+ if(pyTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHAT HAPPENS</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(pyTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="pyCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>admin time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes saved per item. Your numbers will differ.</div>`;
+ else body='<p class="rm-hint">WHAT YOU ASK, AND WHAT THE APP SHOWS</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>YOU ASK</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>PAYMENTS</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How it works','What it saves','Common questions'].map((t,k)=>`<button class="${k===pyTab?'a':''}" onclick="pyTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="pyNav(-1)" aria-label="Previous">‹</button><span>${pyI+1} / ${PY.length}</span><button class="rm-ar" onclick="pyNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+ if(pyTab===1)pyCalc();
+}
+/* === END: PAYMENTS MODULE JS === */
+/* === START: LIVITY MODULE JS === */
+const LV=[
+{t:"Four program types",ic:"layers",sl:["Program questions per month",10,300,50,3],
+ steps:[["Regular","Has its own package and rules."],["Private","Has its own package and rules."],["Advanced","Has its own package and rules."],["Academy","Has its own package and rules."]],
+ pairs:[["Which program is my child in?","The program is shown on the player page"],["Does each program have different rules?","Yes. Each has its own package and rules"]]},
+{t:"Academy by default",ic:"shield",sl:["Headcount checks per month",10,300,60,3],
+ steps:[["Academy players are expected","They count as coming without any action."],["A parent can opt out","Tap Not going in the weekly poll."],["The coach sees the headcount","Confirmed and expected players are visible before training."]],
+ pairs:[["Do I have to confirm every week?","No. Academy players are expected unless they tap Not going"],["Who is coming on Saturday?","Confirmed, expected and not-going players per session"]]},
+{t:"Package packs",ic:"ticket",sl:["Package and expiry questions per month",10,300,60,3],
+ steps:[["Choose a package","Packages have a 30-day validity."],["Pay the one-time membership","The membership is charged once."],["Track it on the phone","Sessions left and the expiry date are shown."]],
+ pairs:[["How long is my package valid?","30 days, with the expiry date shown"],["Do I pay the membership every month?","No. The membership is one-time"],["How many sessions are left?","Remaining sessions on your phone"]]},
+{t:"Venue schedule",ic:"cal",sl:["Where-and-when questions per month",20,500,100,2],
+ steps:[["Sessions are set at venues","Each session shows its venue and time."],["Directions are included","Parents find the field without asking."],["Cancellations are shown","Cancelled sessions are marked and parents are notified."]],
+ pairs:[["Where is training?","The venue, with directions"],["Is training cancelled?","Cancellation notices in the schedule"]]},
+{t:"QR at the field",ic:"qr",sl:["Check-ins per month",50,2000,400,0.5],
+ steps:[["The player shows the QR pass","The coach scans it with the camera."],["Weak signal at the field?","The scan still works and waits in a queue."],["Signal returns, scans sync","Present or Late is recorded and one session is deducted, once."]],
+ pairs:[["What if the field has no signal?","Scans queue on the phone and sync later"],["Was a session deducted twice?","No. A repeat scan never deducts a second session"]]},
+{t:"Family accounts",ic:"users",sl:["Sibling questions per month",5,200,25,3],
+ steps:[["One guardian number","All your children are linked to it."],["Tap a sibling","Switch between children with one tap."],["Each child has their own page","Sessions, schedule and QR pass are per child."]],
+ pairs:[["Do I need a login for each child?","No. One guardian number, several children"],["How do I see my other child?","Tap their name to switch"]]}
+];
+let lvI=0,lvTab=0;
+function lvOpen(i){lvI=i;lvTab=0;lvDraw();$('rm').classList.add('on');hap()}
+function lvNav(d){lvI=(lvI+d+LV.length)%LV.length;lvTab=0;lvDraw();hap()}
+function lvTabSet(t){lvTab=t;lvDraw();hap()}
+function lvCalc(){const m=LV[lvI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function lvDraw(){
+ const m=LV[lvI],s=m.sl;let body='';
+ if(lvTab===0)body='<p class="rm-hint">TAP A STEP TO SEE HOW LIVITY USES IT</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(lvTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="lvCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>admin time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes saved per item. Not Livity's actual figures.</div>`;
+ else body='<p class="rm-hint">WHAT IS ASKED, AND WHAT THE APP SHOWS</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>PEOPLE ASK</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>CASE STUDY · LIVITY</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How Livity uses it','What it saves','Questions it answers'].map((t,k)=>`<button class="${k===lvTab?'a':''}" onclick="lvTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="lvNav(-1)" aria-label="Previous">‹</button><span>${lvI+1} / ${LV.length}</span><button class="rm-ar" onclick="lvNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+ if(lvTab===1)lvCalc();
+}
+/* === END: LIVITY MODULE JS === */
+/* === START: IMPLEMENTATION MODULE JS === */
+const IM=[
+{k:"MIGRATION",t:"Your data comes across",ic:"layers",
+ steps:[["Share what you have now","Your current sheets and chat lists."],["We bring it in","Players, guardians, packages and the weekly schedule."],["You check it with us","It is checked with you before go-live."]],
+ mine:[["Your current player list","A sheet or an export from your chats is enough to start."],["Your packages and fees","So the packages in the app match what you sell."],["Your weekly schedule","Venues, days and times for each program."]],
+ pairs:[["Do I have to retype everything?","Players, guardians, packages and the schedule are brought in from your sheets and chats"],["How do I know the data is right?","It is checked with you before go-live"]]},
+{k:"TRAINING",t:"Your team and parents are ready",ic:"users",
+ steps:[["Walkthrough for admins","A short walkthrough of the console."],["Walkthrough for coaches","A short walkthrough of the scanner."],["A guide for parents","A simple guide they can follow on their phones."]],
+ mine:[["Who your admins and coaches are","So the walkthroughs reach the right people."],["A time that suits your team","Short sessions, scheduled around your training days."],["A way to share the parent guide","For example, your existing parents' group chat."]],
+ pairs:[["Will parents know how to use it?","A simple guide they can follow on their phones"],["Does my team need long training?","Short walkthroughs for admins and coaches"]]},
+{k:"GO-LIVE",t:"A guided first week",ic:"bolt",
+ steps:[["You go live","Parents and staff start using the app."],["We watch with you","The first scans and payments are watched together."],["We fix what does not fit","Anything that does not match your routine is adjusted."]],
+ mine:[["Tell us what feels off","Anything that does not match how you run a session."],["Run your normal week","So the first week reflects real use."]],
+ pairs:[["How long until we are live?","Most academies are live within a week"],["What if something does not fit our routine?","We fix it during the first week"]]},
+{k:"SUPPORT",t:"Someone to call when it matters",ic:"chat",
+ steps:[["One named contact","A person you know, not a ticket queue."],["Ask questions or report issues","Send them to that contact."],["Response times in writing","Agreed with you up front."]],
+ mine:[["Your main contact on the academy side","So we know who to talk to."],["What counts as urgent for you","So response times fit your operation."]],
+ pairs:[["Who do I contact when something breaks?","One named contact"],["How fast will I get a reply?","Response times are agreed in writing"]]}
+];
+let imI=0,imTab=0;
+function imOpen(i){imI=i;imTab=0;imDraw();$('rm').classList.add('on');hap()}
+function imNav(d){imI=(imI+d+IM.length)%IM.length;imTab=0;imDraw();hap()}
+function imTabSet(t){imTab=t;imDraw();hap()}
+function imDraw(){
+ const m=IM[imI],it=IMPL.items[imI]||{};let body='';
+ if(imTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHAT HAPPENS</p>'+m.steps.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else if(imTab===1)body='<p class="rm-hint">WHAT WE WOULD ASK OF YOU (PROPOSED)</p>'+m.mine.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}</p></div>`).join('');
+ else body='<p class="rm-hint">WHAT YOU ASK, AND WHAT WE DO</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>YOU ASK</small>${p[0]}</div><div class="n"><small>WE DO</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>IMPLEMENTATION · ${m.k}</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['The plan','Your part','Common questions'].map((t,k)=>`<button class="${k===imTab?'a':''}" onclick="imTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-fine"><span class="pl-badge${it.confirmed?' ok':''}">${it.confirmed?'CONFIRMED':'TO CONFIRM'}</span></div><div class="rm-f"><button class="rm-ar" onclick="imNav(-1)" aria-label="Previous">‹</button><span>${imI+1} / ${IM.length}</span><button class="rm-ar" onclick="imNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmClose()">Done</button></div>`;
+}
+/* === END: IMPLEMENTATION MODULE JS === */
 /* === END: REALITY MODULE JS === */
 layout();chrome();
 </script></body></html>
