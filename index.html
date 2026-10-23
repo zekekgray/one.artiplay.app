@@ -476,6 +476,46 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .pm .how{font-size:12.5px;line-height:1.5;color:var(--t2)}
 .pl-badge{display:inline-block;font:700 9px var(--m);letter-spacing:.08em;padding:3px 9px;border-radius:10px;background:rgba(245,112,26,.16);color:var(--rust)}
 .pl-badge.ok{background:rgba(48,209,88,.16);color:var(--gd)}
+/* === START: REALITY MODULE CSS === */
+#rm{position:fixed;inset:0;z-index:95;display:flex;align-items:center;justify-content:center;padding:12px;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+#rm.on{opacity:1;visibility:visible}
+.rm-p{width:100%;max-width:620px;max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px);overflow-y:auto;background:#F5F0E6;color:var(--t1);border-radius:26px;padding:20px 22px 22px;box-shadow:0 32px 72px rgba(0,0,0,.45);transform:translateY(14px) scale(.96);transition:transform .4s var(--sp);scrollbar-width:none}
+.rm-p::-webkit-scrollbar{display:none}
+#rm.on .rm-p{transform:none}
+.rm-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.rm-h .v-ico{flex:none;width:42px;height:42px;border-radius:13px}
+.rm-h small{display:block;font:700 9.5px var(--m);letter-spacing:.1em;opacity:.5}
+.rm-h b{font-size:17px;letter-spacing:-.01em;line-height:1.25}
+.rm-x{margin-left:auto;flex:none;width:34px;height:34px;border-radius:50%;background:rgba(28,28,30,.08);color:var(--t1);font-size:18px;line-height:1;box-shadow:none}
+.rm-tabs{display:flex;gap:4px;margin-bottom:14px;background:rgba(28,28,30,.06);padding:4px;border-radius:14px}
+.rm-tabs button{flex:1;padding:9px 4px;border-radius:11px;background:transparent;color:var(--t2);font-size:12px;font-weight:700;transition:background .25s,color .25s}
+.rm-tabs button.a{background:var(--ink);color:#F5F0E6}
+.rm-hint{font:600 10.5px var(--m);letter-spacing:.06em;opacity:.5;margin:0 0 10px}
+.rm-s{border-radius:14px;background:#F7F2E6;border:1px solid rgba(28,28,30,.1);margin-bottom:7px;cursor:pointer;overflow:hidden;transition:border-color .25s}
+.rm-s>div{display:flex;gap:10px;align-items:center;padding:10px 12px;font-size:13px;font-weight:700}
+.rm-s i{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#F5F0E6;font:700 11px var(--m);font-style:normal}
+.rm-s p{display:none;margin:0;padding:0 12px 12px 46px;font-size:12.5px;line-height:1.55;color:var(--t2)}
+.rm-s p em{display:block;margin-top:6px;font-style:normal;font-weight:700;color:var(--rust)}
+.rm-s.open{border-color:rgba(245,112,26,.45)}
+.rm-s.open p{display:block;animation:hwIn .35s var(--ease)}
+.rm-p .sl b{color:var(--gd)}
+.rm-p input[type=range]{background:rgba(28,28,30,.16)}
+.rm-p input[type=range]::-webkit-slider-thumb{border-color:#F5F0E6}
+.rm-res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.rm-res>div{padding:14px 16px;border-radius:16px;background:#F7F2E6;border:1px solid rgba(28,28,30,.1)}
+.rm-res span{font-size:11.5px;opacity:.6}
+.rm-big{font:700 26px var(--m);color:var(--rust);letter-spacing:-.02em}
+.rm-fine{font-size:10.5px;line-height:1.5;opacity:.5;margin-top:12px}
+.rm-r{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:7px}
+.rm-r div{padding:11px 12px;border-radius:13px;font-size:12.5px;line-height:1.45}
+.rm-r small{display:block;font:700 8.5px var(--m);letter-spacing:.1em;opacity:.55;margin-bottom:4px}
+.rm-r .o{background:rgba(245,112,26,.1)}
+.rm-r .n{background:rgba(36,138,61,.13)}
+.rm-f{display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(28,28,30,.1);font:600 11px var(--m)}
+.rm-ar{width:36px;height:36px;border-radius:50%;background:rgba(28,28,30,.08);color:var(--t1);font-size:18px;line-height:1;box-shadow:none}
+.rm-f .btn{margin-left:auto;padding:11px 16px;font-size:12.5px}
+@media(max-width:520px){.rm-r,.rm-res{grid-template-columns:1fr}.rm-p{padding:16px}}
+/* === END: REALITY MODULE CSS === */
 /* === END: STORY CSS === */
 /* === START: COURT BACKDROP === */
 /* Pitch-line graphic: halfway line, centre circle, boxes (very subtle) */
@@ -507,10 +547,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <h2 id="pm-h">Less admin. More coaching. One connected academy.</h2>
 <p class="lede rv">ArtiPlay connects enrollment, payments, attendance, session packages and schedules in one mobile-first portal for sports academies and training programs.</p>
 </div>
-<div><div class="card rv" onclick="md(this)" data-t="Academy owners" data-s="See the whole operation" data-d="Know who has paid and who owes what, with daily, weekly and monthly summaries." data-go="money"><span class="tag">FOR ACADEMY OWNERS</span><b>See operations and what is owed</b><span>More visibility into operations and outstanding payments.</span></div>
-<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Coaches" data-s="Know who is coming" data-d="Staff sign in, scan the player QR, and attendance is recorded as Present or Late. Coaches mark which sessions they can handle." data-go="staff"><span class="tag">FOR COACHES</span><b>Know who is coming</b><span>Clearer rosters, attendance and session information.</span></div>
-<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Parents and players" data-s="Everything on one phone" data-d="See sessions left, the weekly schedule, payments and a QR pass, on any phone." data-go="parents"><span class="tag">FOR PARENTS</span><b>Everything on one phone</b><span>Easier access to schedules, balances and player details.</span></div>
-<div class="card rv" style="margin-top:10px" onclick="md(this)" data-t="Administrators" data-s="One connected workflow" data-d="Review enrollments, verify payments, assign coaches and read reports from one console." data-go="admin"><span class="tag">FOR ADMINISTRATORS</span><b>One connected workflow</b><span>A connected workflow for approvals, records and reporting.</span></div></div></div>
+<div><div class="card rv" onclick="pmOpen(0)" data-t="Academy owners" data-s="See the whole operation" data-d="Know who has paid and who owes what, with daily, weekly and monthly summaries." data-go="money"><span class="tag">FOR ACADEMY OWNERS</span><b>See operations and what is owed</b><span>More visibility into operations and outstanding payments.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="pmOpen(1)" data-t="Coaches" data-s="Know who is coming" data-d="Staff sign in, scan the player QR, and attendance is recorded as Present or Late. Coaches mark which sessions they can handle." data-go="staff"><span class="tag">FOR COACHES</span><b>Know who is coming</b><span>Clearer rosters, attendance and session information.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="pmOpen(2)" data-t="Parents and players" data-s="Everything on one phone" data-d="See sessions left, the weekly schedule, payments and a QR pass, on any phone." data-go="parents"><span class="tag">FOR PARENTS</span><b>Everything on one phone</b><span>Easier access to schedules, balances and player details.</span></div>
+<div class="card rv" style="margin-top:10px" onclick="pmOpen(3)" data-t="Administrators" data-s="One connected workflow" data-d="Review enrollments, verify payments, assign coaches and read reports from one console." data-go="admin"><span class="tag">FOR ADMINISTRATORS</span><b>One connected workflow</b><span>A connected workflow for approvals, records and reporting.</span></div></div></div>
 <!-- === END: PROMISE SLIDE === -->
 </div></section>
 
@@ -637,6 +677,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <div class="tr"><kbd>Home / End</kbd><span>Jump to first / last slide</span></div></div>
 <div id="hint">Tap here to move through the presentation →</div>
 <div id="ov" onclick="this.classList.remove('on')"><div><div style="font-size:56px;font-weight:800;color:#fff;letter-spacing:.04em">ARTISLIDE</div><div style="font-size:13px;color:var(--c2);margin-top:8px">Present differently.</div></div></div>
+<div id="rm" onclick="if(event.target===this)rmClose()"><div class="rm-p" id="rmp"></div></div>
 <div id="cnt"></div><div id="toast"></div>
 
 <script>
@@ -719,7 +760,7 @@ function cards(id,arr){
    out=x.out||(pain&&a[2]?a[2]:''),d=x.data,more=x.more||'',shot=x.shot||'',expand=!!(tgt||more||shot);
   const strip=d?`<div class="cx-d"><i class="cx-av">${d.who.charAt(0)}</i><div class="cx-t"><small>${d.k}</small><b>${d.who}</b><u>${d.line}</u></div><em class="cx-pill ${d.tone||''}">${d.pill}</em></div><div class="cx-s">${x.real?'LIVE DATA · NAMES CHANGED':'SAMPLE DATA'}</div>`:'';
   const body=expand?`<div class="cx-more">${shot?`<div class="cx-shot"><img src="${shot}" alt="${a[0]} screen" loading="lazy" style="object-position:${x.pos||'top'}"></div><div class="cx-s">${x.real?'LIVE SCREEN · NAMES CHANGED':'SCREEN · SAMPLE DATA'}</div>`:''}${more?`<p>${more}</p>`:''}${tgt?`<button class="btn cx-go" onclick="event.stopPropagation();cxGo('${tgt}')">${lab}</button>`:''}</div>`:'';
-  return `<div class="card rv cx"${expand?` onclick="cx(this)" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter')cx(this)"`:' style="cursor:default"'}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><div class="cx-hr"><span class="tag">${String(i+1).padStart(2,'0')}</span>${expand?'<i class="cx-ch">+</i>':''}</div></div><b>${a[0]}</b><span>${a[1]}</span>${strip}${out?`<em class="v-fx">→ ${out}</em>`:''}${body}</div>`}).join('')}
+  return `<div class="card rv cx"${expand?` onclick="${pain?'rmOpen('+i+')':'cx(this)'}" role="button" tabindex="0" aria-expanded="false" onkeydown="if(event.key==='Enter')${pain?'rmOpen('+i+')':'cx(this)'}"`:' style="cursor:default"'}><div class="v-ch"><i class="v-ico${pain?' pain':''}"><svg viewBox="0 0 24 24">${vIc(a[0])}</svg></i><div class="cx-hr"><span class="tag">${String(i+1).padStart(2,'0')}</span>${expand?'<i class="cx-ch">+</i>':''}</div></div><b>${a[0]}</b><span>${a[1]}</span>${strip}${out?`<em class="v-fx">→ ${out}</em>`:''}${body}</div>`}).join('')}
 /* Benefit-first captions under the animated mocks. Skipped when a real screenshot replaces the mock. */
 const HERO_CAPS={staff:'One scan records Present or Late',admin:'Payments, attendance and cash in one console',money:'What is owed, from the server clock'};
 function capsApply(){Object.keys(HERO_CAPS).forEach(k=>{const i=K(k);if(i<0||(typeof SHOTS!=='undefined'&&SHOTS[k]))return;const c=S[i].querySelector('.v-hr .v-cap');if(c)c.textContent=HERO_CAPS[k]+' · Sample data'})}
@@ -838,7 +879,7 @@ addEventListener('resize',layout);
 /* removed: the MutationObserver on #flow re-triggered itself forever (classList.remove rewrites the class attribute) */
 /* === END: FLOW CRASH FIX === */
 /* modal */
-function md(el){const m=$('md'),sc=$('sc');if(!el){m.classList.remove('on');sc.classList.remove('on');if(nsOpen){nsOpen=false;clearTimeout(nsT);go(K('about'))}return}
+function md(el){const m=$('md'),sc=$('sc');if(!el){rmClose();m.classList.remove('on');sc.classList.remove('on');if(nsOpen){nsOpen=false;clearTimeout(nsT);go(K('about'))}return}
 $('md-s').textContent=el.dataset.s||'';$('md-t').innerHTML=el.dataset.t;$('md-d').innerHTML=el.dataset.d;const b=$('md-b'),g=el.dataset.go;
 if(g!==undefined){b.style.display='';b.textContent='See this section';b.onclick=()=>{md();go(isNaN(+g)?K(g):+g)}}else b.style.display='none';
 m.classList.add('on');sc.classList.add('on');hap()}
@@ -994,5 +1035,88 @@ const _vCalc=calc;calc=function(){_vCalc();vSav()};
 
 vInject();shotsApply();beatsApply();capsApply();
 /* ===================== END VISUAL LAYER (B) ===================== */
+/* === START: REALITY MODULE JS === */
+const RM=[
+{k:"ENROLLMENT",sl:["New players per month",5,200,30,12],
+ flow:[["Parent asks in chat","A message lands in a Messenger or Viber group among dozens of others.","Questions get buried and answered late."],["Admin sends the form","Details are requested one by one, or a form link is sent.","The same questions repeat for every child."],["Details retyped","Name, age, guardian and contact are copied into a sheet by hand.","Typos and missing fields slip in."],["Slot confirmed by chat","The admin confirms when they remember to.","Parents follow up again."]],
+ pairs:[["Forms and screenshots across chats","Online enrollment with one player profile"],["Retyping into a sheet","The admin reviews: approve, send back for correction or decline"],["One message per child","One guardian number, several children"]]},
+{k:"PAYMENTS",sl:["Payments per month",10,500,120,4],
+ flow:[["Parent pays by GCash","A screenshot is sent in chat.","Reference numbers are hard to read."],["Admin finds the player","The screenshot is matched to a name and package by hand.","Wrong match, or none."],["Amount checked","Compared to what was owed, including any late fee.","Late fees get argued case by case."],["Sheet updated","The balance is typed into a spreadsheet.","Nobody can audit it later."]],
+ pairs:[["Screenshots matched by hand","Proof upload, verification and a ledger"],["Late fees argued","Penalty computed by the server clock"],["Short payments get lost","Partial payments supported, the balance stays open"]]},
+{k:"SESSIONS",sl:["Balance questions per month",20,600,150,2],
+ flow:[["Parent asks","“How many sessions does my child have left?”","Asked again every week."],["Admin checks the sheet","Scrolls to the player and reads the count.","The number may be out of date."],["Package expires quietly","Nobody tracks the validity date.","Disputes at renewal."],["The count is guessed","Parent and admin each remember a different number.","Trust erodes."]],
+ pairs:[["A count nobody trusts","Live sessions left on the parent’s phone"],["Packages expire quietly","Expiry date shown with a top-up button"],["Repeat scans miscount","A repeat scan never deducts a second session"]]},
+{k:"ATTENDANCE",sl:["Training sessions per month",4,120,40,10],
+ flow:[["Players sign a sheet","Paper at the field, passed around.","Illegible or missed names."],["The sheet goes home","A coach keeps it, or loses it.","Records vanish."],["Retyped at week end","The admin enters it into the spreadsheet, if at all.","Delays and typos."],["Sessions deducted late","Balances lag behind real attendance.","More disputes."]],
+ pairs:[["Paper sign-in","QR scan records Present or Late"],["Retyped at the end of the week","Recorded at the moment of the scan"],["Weak signal at the field","Offline mode queues scans and syncs later"]]},
+{k:"NO-SHOWS",sl:["Last-minute cancels per month",5,200,25,6],
+ flow:[["Coach plans the session","The headcount is unknown.","Over- or under-prepared."],["Players do not show","Or cancel by message at the last minute.","Coaches learn on arrival."],["Admin reshuffles","Parents are messaged to fill the gaps.","Time lost."],["Revenue slips","Lapsed and missed sessions go unnoticed.","Packages are wasted or disputed."]],
+ pairs:[["Coach learns who is coming on arrival","Weekly Going / Not going poll"],["Cancellations by chat","Cancellations shown in the schedule"],["Academy headcount unknown","Academy players are expected unless they tap Not going"]]},
+{k:"ADMIN LOAD",sl:["Parent questions per month",30,800,240,2],
+ flow:[["Parent has a question","Schedule, balance, payment or venue.","Only the admin can answer."],["The admin is busy","Coaching, a trip, or another job.","Messages pile up."],["Parents wait","No answer, no payment, no booking.","Frustration grows."],["Everything stalls","The system is one person.","Growth is capped."]],
+ pairs:[["Parents wait for one person","A self-service portal for schedule, balance and QR pass"],["Questions in chat","Ask Admin in the app, replied to from the console"],["No record of who did what","Audit log: who changed what, when, and why"]]}
+];
+let rmI=0,rmTab=0;
+function rmOpen(i){rmI=i;rmTab=0;rmDraw();$('rm').classList.add('on');hap()}
+function rmClose(){const e=$('rm');if(e)e.classList.remove('on')}
+function rmNav(d){rmI=(rmI+d+RM.length)%RM.length;rmTab=0;rmDraw();hap()}
+function rmTabSet(t){rmTab=t;rmDraw();hap()}
+function rmGo(){const t=REAL[rmI][3];rmClose();cxGo(t)}
+function rmCalc(){const m=RM[rmI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function rmDraw(){
+ const m=RM[rmI],r=REAL[rmI],s=m.sl;let body='';
+ if(rmTab===0)body='<p class="rm-hint">TAP A STEP TO SEE WHERE IT GOES WRONG</p>'+m.flow.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}<em>× ${f[2]}</em></p></div>`).join('');
+ else if(rmTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="rmCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>admin time per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes of admin time per item. Your numbers will differ.</div>`;
+ else body=`<p class="rm-hint">${r[2].toUpperCase()}</p>`+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>OLD WAY</small>${p[0]}</div><div class="n"><small>ARTIPLAY</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico pain"><svg viewBox="0 0 24 24">${vIc(r[0])}</svg></i><div><small>${m.k}</small><b>${r[0]}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['How it breaks','What it costs','With ArtiPlay'].map((t,k)=>`<button class="${k===rmTab?'a':''}" onclick="rmTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="rmNav(-1)" aria-label="Previous">‹</button><span>${rmI+1} / ${RM.length}</span><button class="rm-ar" onclick="rmNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="rmGo()">See this section</button></div>`;
+ if(rmTab===1)rmCalc();
+}
+/* === START: PROMISE MODULE JS === */
+const PM=[
+{k:"FOR ACADEMY OWNERS",t:"See operations and what is owed",ic:"chart",go:"money",
+ sl:["Balances to chase per month",5,300,40,15],
+ flow:[["Who has paid?","You scroll chats, a sheet and a bank app to piece it together.","Three places, three different answers.","The console shows collected, owed and to verify, today."],
+  ["Who owes what?","Balances live in someone's head or a spreadsheet.","Late fees get argued case by case.","Live balances, with the late penalty computed by the server clock."],
+  ["How is the academy doing?","You wait for the admin to compile the numbers.","Reports arrive late, if at all.","Daily, weekly and monthly summaries."],
+  ["Can you trust the records?","Edits leave no trace.","Disputes have no evidence.","An append-only ledger and an audit log: who changed what, when and why."]],
+ pairs:[["How much was collected today?","Collected, attendance and to-verify on one dashboard"],["Who still owes?","Amount due per player, with the live penalty"],["What happened this week?","Daily, weekly and monthly summaries"]]},
+{k:"FOR COACHES",t:"Know who is coming",ic:"user",go:"staff",
+ sl:["Training sessions per month",4,120,40,8],
+ flow:[["Before training","You ask in chat who is coming.","You learn the headcount on arrival.","The weekly Going / Not going poll shows who is confirmed."],
+  ["At check-in","A paper sheet goes around the field.","Names are missed or illegible.","Scan the QR: photo, sessions left, Present or Late."],
+  ["Weak signal","No signal means no record.","Attendance is rebuilt from memory later.","Offline mode queues scans and syncs when signal returns."],
+  ["Your availability","Coverage is arranged by message.","Gaps are found at the last minute.","Mark the sessions you can take. The admin assigns or auto-assigns."]],
+ pairs:[["Who is coming on Saturday?","Confirmed, expected and not-going players per session"],["Is this player paid up?","Photo and sessions left appear at the scan"],["Did I already scan this player?","A repeat scan never deducts a second session"]]},
+{k:"FOR PARENTS",t:"Everything on one phone",ic:"users",go:"parents",
+ sl:["Parent messages per month",30,800,240,3],
+ flow:[["How many sessions are left?","You ask the admin and wait.","The same question, every week.","Sessions left and the expiry date, on your phone."],
+  ["What time is training?","You scroll chat to find the last message.","Old messages, wrong times.","A weekly schedule with cancellations shown."],
+  ["Paying","You send a screenshot and wait for a reply.","No idea if it was received.","Upload proof, see the amount due and the live deadline."],
+  ["More than one child","Separate messages for each child.","Details get mixed up.","One guardian number. Switch between siblings with one tap."]],
+ pairs:[["How many sessions are left?","Remaining sessions with expiry and a top-up button"],["Did my payment go through?","Verified status and receipts"],["How does my child check in?","A QR pass that works offline once loaded"]]},
+{k:"FOR ADMINISTRATORS",t:"One connected workflow",ic:"gear",go:"admin",
+ sl:["Payments to verify per month",10,500,120,6],
+ flow:[["Enrollment","Forms are retyped from chats.","Typos and missing fields.","Review in one place: approve, send back or decline."],
+  ["Payments","Screenshots are matched by hand.","Wrong match, or none.","One queue: verify, partial, reject or reverse."],
+  ["Coaches","Assigned by message.","Last-minute gaps.","Assign by hand or auto-assign from availability."],
+  ["Changes and exceptions","Edits happen with no reason recorded.","Nobody can explain a number later.","Sensitive changes need a reason. Large ones need a second approver."]],
+ pairs:[["What needs my approval?","Pending payments and enrollments in one queue"],["Who changed this?","Audit log with who, when and why"],["Which session has no coach?","Roster and coach assignment per session"]]}
+];
+let pmI=0,pmTab=0;
+function pmOpen(i){pmI=i;pmTab=0;pmDraw();$('rm').classList.add('on');hap()}
+function pmNav(d){pmI=(pmI+d+PM.length)%PM.length;pmTab=0;pmDraw();hap()}
+function pmTabSet(t){pmTab=t;pmDraw();hap()}
+function pmGo(){const t=PM[pmI].go;rmClose();cxGo(t)}
+function pmCalc(){const m=PM[pmI],n=+$('rm-n').value,h=n*m.sl[4]/60;$('rm-v').textContent=n;$('rm-h').textContent=(h<10?h.toFixed(1):Math.round(h))+' hrs';$('rm-p').textContent=peso(h*110)}
+function pmDraw(){
+ const m=PM[pmI],s=m.sl;let body='';
+ if(pmTab===0)body='<p class="rm-hint">TAP A STEP TO SEE THE DIFFERENCE</p>'+m.flow.map((f,j)=>`<div class="rm-s" onclick="this.classList.toggle('open');hap()"><div><i>${j+1}</i>${f[0]}</div><p>${f[1]}<em>× ${f[2]}</em><em style="color:var(--gd)">✓ ${f[3]}</em></p></div>`).join('');
+ else if(pmTab===1)body=`<div class="sl"><div><span>${s[0]}</span><b id="rm-v"></b></div><input type="range" id="rm-n" min="${s[1]}" max="${s[2]}" step="1" value="${s[3]}" oninput="pmCalc()"></div><div class="rm-res"><div><div class="rm-big" id="rm-h"></div><span>time back per month</span></div><div><div class="rm-big" id="rm-p"></div><span>labor value at ₱110/hour</span></div></div><div class="rm-fine">Illustrative. Assumes about ${s[4]} minutes saved per item. Your numbers will differ.</div>`;
+ else body='<p class="rm-hint">WHAT YOU SEE IN THE APP</p>'+m.pairs.map(p=>`<div class="rm-r"><div class="o"><small>YOU ASK</small>${p[0]}</div><div class="n"><small>THE APP SHOWS</small>${p[1]}</div></div>`).join('');
+ $('rmp').innerHTML=`<div class="rm-h"><i class="v-ico"><svg viewBox="0 0 24 24">${VIC[m.ic]}</svg></i><div><small>${m.k}</small><b>${m.t}</b></div><button class="rm-x" onclick="rmClose()" aria-label="Close">×</button></div><div class="rm-tabs">${['A day in the job','What it saves','In the app'].map((t,k)=>`<button class="${k===pmTab?'a':''}" onclick="pmTabSet(${k})">${t}</button>`).join('')}</div>${body}<div class="rm-f"><button class="rm-ar" onclick="pmNav(-1)" aria-label="Previous">‹</button><span>${pmI+1} / ${PM.length}</span><button class="rm-ar" onclick="pmNav(1)" aria-label="Next">›</button><button class="btn dk" onclick="pmGo()">See this section</button></div>`;
+ if(pmTab===1)pmCalc();
+}
+/* === END: PROMISE MODULE JS === */
+/* === END: REALITY MODULE JS === */
 layout();chrome();
 </script></body></html>
