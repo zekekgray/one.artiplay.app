@@ -73,8 +73,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 .ch{display:inline-block;opacity:0;transform:translateY(6px);transition:opacity .42s var(--ease),transform .42s var(--ease)}
 .ty.on .ch{opacity:1;transform:none}
 .ib{position:fixed;top:20px;z-index:60;width:48px;height:48px;border-radius:50%;background:rgba(128,128,128,.35);color:#fff;display:grid;place-items:center;backdrop-filter:blur(10px)}
-#tp-b{left:76px}#nt-b{left:132px}
-.dot{position:absolute;top:10px;right:10px;width:9px;height:9px;border-radius:50%;background:#F5F0E6;border:2px solid var(--ink);opacity:0;transform:scale(0);transition:.3s var(--sp)}.dot.on{opacity:1;transform:none}
+#tp-b{left:76px}
 .pn{position:fixed;top:80px;left:20px;z-index:70;width:290px;max-width:calc(100vw - 40px);background:#F5F0E6;color:var(--t1);border-radius:22px;padding:18px 20px;box-shadow:0 28px 64px rgba(20,19,16,.25);opacity:0;visibility:hidden;transform:scale(.92) translateY(-6px);transform-origin:top left;transition:opacity .25s,transform .35s var(--sp),visibility .25s}
 .pn.on{opacity:1;visibility:visible;transform:none}
 .pn h5{margin:0 0 10px;font-size:13px}
@@ -636,8 +635,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <div class="tr"><kbd>← →</kbd><span>Hide / reveal detail (keyboard)</span></div>
 <div class="tr"><kbd>Swipe</kbd><span>Move between slides on mobile</span></div>
 <div class="tr"><kbd>Home / End</kbd><span>Jump to first / last slide</span></div></div>
-<button class="ib" id="nt-b" onclick="togN()" aria-label="Notifications"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="dot" id="nt-d"></span></button>
-<div class="pn" id="nt-p"><h5>Notification</h5><div style="font-size:12.5px;line-height:1.55;color:var(--t2)" id="nt-m">Wala pang notification.</div></div>
 <div id="hint">Tap here to move through the presentation →</div>
 <div id="ov" onclick="this.classList.remove('on')"><div><div style="font-size:56px;font-weight:800;color:#fff;letter-spacing:.04em">ARTISLIDE</div><div style="font-size:13px;color:var(--c2);margin-top:8px">Present differently.</div></div></div>
 <div id="cnt"></div><div id="toast"></div>
@@ -868,9 +865,9 @@ const hasBackend=window.google&&google.script&&google.script.run;
 cb('submitLead',p).then(()=>{btn.textContent='Sent ✓';if(!hasBackend)location.href='mailto:'+CONFIG.contactEmail+'?subject='+encodeURIComponent('ArtiPlay walkthrough: '+b)+'&body='+encodeURIComponent(`${n}\n${b}\n${p.players}\n${p.notes}`);setTimeout(()=>nextSteps(),1200)}).catch(()=>{btn.disabled=false;btn.textContent='Send and book a walkthrough';toast("Couldn't send. Try again.")})}
 let visitorEmail='';
 function start(){
-$('wel').classList.add('h');typeH(0);fetchN();showHint();st.focus()}
+$('wel').classList.add('h');typeH(0);showHint();st.focus()}
 $('wel').querySelector('.btn').addEventListener('keydown',e=>{if(e.key==='Enter')start()});
-let unlocked=false,nsOpen=false,nsT,lastN=null,nT;
+let unlocked=false,nsOpen=false,nsT;
 const typed=new Set();
 function typeH(i){const h=S[i].querySelector('h2,h1');if(!h||typed.has(i))return;typed.add(i);
 const t=h.textContent;let n=0;h.classList.add('ty');h.innerHTML='';
@@ -879,16 +876,8 @@ t.split(' ').forEach((w,wi,a)=>{const ws=document.createElement('span');ws.style
 h.appendChild(ws);if(wi<a.length-1){h.appendChild(document.createTextNode(' '));n++}});
 void h.offsetWidth;requestAnimationFrame(()=>h.classList.add('on'))}
 function showHint(){setTimeout(()=>$('hint').classList.add('on'),700);setTimeout(()=>$('hint').classList.remove('on'),4200)}
-function togT(){hap();$('tp-p').classList.toggle('on');$('nt-p').classList.remove('on')}
-function togN(){hap();clearTimeout(nT);$('nt-p').classList.toggle('on');$('tp-p').classList.remove('on');$('nt-d').classList.remove('on')}
-document.addEventListener('click',e=>{if(!e.target.closest('.pn,.ib')){$('tp-p').classList.remove('on');$('nt-p').classList.remove('on')}});
-function fetchN(){cb('getNotif').then(r=>{if(!r||!r.success)return;const m=(r.message||'').trim();
-if(!m){lastN=r.updatedAt||null;return}
-$('nt-m').textContent=m;
-if(r.updatedAt&&r.updatedAt!==lastN){const first=lastN===null;lastN=r.updatedAt;
-if(!first){hap();$('nt-d').classList.add('on');$('nt-p').classList.add('on');clearTimeout(nT);
-nT=setTimeout(()=>$('nt-p').classList.remove('on'),Math.max(4000,Math.min(12000,m.split(/\s+/).length/200*60000)))}}}).catch(()=>{})}
-setInterval(()=>{if($('wel').classList.contains('h'))fetchN()},15000);
+function togT(){hap();$('tp-p').classList.toggle('on')}
+document.addEventListener('click',e=>{if(!e.target.closest('.pn,.ib')){$('tp-p').classList.remove('on')}});
 function nextSteps(){unlocked=true;nsOpen=true;
 $('md-s').textContent='From first call to going live';$('md-t').textContent='What happens next';
 $('md-d').innerHTML='<b>01</b> A 20-minute call about your programs and fees.<br><b>02</b> A live demo with your own sample data.<br><b>03</b> Setup, most academies are live within a week.';
