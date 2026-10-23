@@ -489,7 +489,6 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;heigh
 <div id="wel"><div style="font:600 12px var(--m);letter-spacing:.2em;opacity:.6">ARTIBYTE'S APOSTROPHE INC.</div>
 <h1 style="margin:18px 0 12px">One app for the<br>whole academy.</h1>
 <p class="lede" style="max-width:420px">ArtiPlay runs enrollment, payments, attendance and schedules for academies, clubs and sports programs. Built with and proven at Livity.</p>
-<div class="fld" id="w-em" style="width:100%;max-width:280px;max-height:0;overflow:hidden;opacity:0;margin:0;text-align:left;transition:max-height .4s var(--ease),opacity .3s,margin .4s"><input id="w-in" type="email" placeholder="you@academy.com" style="text-align:center" onkeydown="if(event.key==='Enter')start()" oninput="this.style.borderColor='';$('w-er').style.display='none'"><div id="w-er" style="display:none;font-size:11.5px;color:var(--rust);margin-top:8px;text-align:center">Please enter a valid email address.</div></div>
 <div class="btn" id="w-btn" style="cursor:pointer" onclick="start()" role="button" tabindex="0">Start presentation</div></div>
 
 <div id="stage" tabindex="0"><div id="track">
@@ -868,11 +867,7 @@ const btn=$('send');btn.disabled=true;btn.textContent='Sending…';
 const hasBackend=window.google&&google.script&&google.script.run;
 cb('submitLead',p).then(()=>{btn.textContent='Sent ✓';if(!hasBackend)location.href='mailto:'+CONFIG.contactEmail+'?subject='+encodeURIComponent('ArtiPlay walkthrough: '+b)+'&body='+encodeURIComponent(`${n}\n${b}\n${p.players}\n${p.notes}`);setTimeout(()=>nextSteps(),1200)}).catch(()=>{btn.disabled=false;btn.textContent='Send and book a walkthrough';toast("Couldn't send. Try again.")})}
 let visitorEmail='';
-function start(){const w=$('w-em'),i=$('w-in');
-if(!w.dataset.open){w.dataset.open=1;w.style.maxHeight='70px';w.style.opacity='1';w.style.marginBottom='14px';$('w-btn').textContent='Continue';hap();setTimeout(()=>i.focus(),200);return}
-const v=i.value.trim(),at=v.indexOf('@');
-if(at<1||at===v.length-1||v.indexOf('.',at)<0){hap();i.style.borderColor='var(--rust)';$('w-er').style.display='block';i.focus();return}
-visitorEmail=v;cb('registerVisitor',{email:v,userAgent:navigator.userAgent,source:'ArtiPlay deck'});
+function start(){
 $('wel').classList.add('h');typeH(0);fetchN();showHint();st.focus()}
 $('wel').querySelector('.btn').addEventListener('keydown',e=>{if(e.key==='Enter')start()});
 let unlocked=false,nsOpen=false,nsT,lastN=null,nT;
